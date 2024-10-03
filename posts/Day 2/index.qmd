@@ -1,0 +1,175 @@
+---
+title: "Day 2: Summarizing Data"
+author: "Vasantha M"
+---
+
+## Exercise 1 - Classwork On Summarizing Data
+
+> ### Notes:
+>
+> -   Installing packages makes them available to all documents created in the future. {syntax: install.packages("")}
+>
+> -   In each document however, one must call on the packages using {library()} to "activate" them.
+>
+> -   Don't forget to add { #\| label: setup } in the first code chunk when calling the packages
+>
+> -   Have only one quarto document open in one window, as R treats a session as a single data pool and can pull libraries across documents (which could complicate things later.
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(ggformula)
+library(mosaic)
+library(skimr)
+library(knitr)
+library(kableExtra)
+library(babynames)
+```
+
+### Looking at the 'mpg' Data Set:
+
+```{r}
+mpg
+```
+
+#### Using Glimpse
+
+```{r}
+glimpse(mpg)
+```
+
+> Testing different syntax:
+
+```{r}
+mpg %>% dplyr::glimpse()
+```
+
+> ### Notes
+>
+> -   
+
+#### Using Inspect
+
+```{r}
+inspect(mpg)
+```
+
+#### Using Skim
+
+```{r}
+skimr::skim(mpg)
+```
+
+> Testing different syntax:
+
+```{r}
+skim(mpg)
+```
+
+#### Data Munging - Mutating data according to your intent:
+
+```{r}
+mpg_modified <- mpg %>%
+  dplyr::mutate(
+    cyl = as_factor(cyl),
+    fl = as_factor(fl),
+    drv = as_factor(drv),
+    class = as_factor(class),
+    trans = as_factor(trans)
+  )
+glimpse(mpg_modified)
+```
+
+```{r}
+inspect(mpg_modified)
+```
+
+> ### Notes
+>
+> -   
+
+#### Grouping by Qualitative Variables
+
+Highway milage grouped by cylinder type:
+
+```{r}
+mpg_modified %>%
+  group_by(cyl) %>%
+  summarize(average_hwy = mean(hwy), count = n())
+```
+
+The average milage of cars based on the cylinder type.
+
+```{r}
+mpg_modified %>%
+  group_by(cyl, fl) %>%
+  summarize(average_hwy = mean(hwy), count = n())
+```
+
+There should be 20 columns, but only there are only 8 as certain combinations of cars don't exisit in this data set.
+
+### Looking at the 'babynames' Data Set:
+
+```{r}
+glimpse(babynames)
+```
+
+```{r}
+inspect(babynames)
+```
+
+```{r}
+bn_modone <- babynames %>%
+  dplyr::mutate(
+    sex = as_factor(sex),
+
+  )
+glimpse(bn_modone)
+```
+
+What if I wanted to make 'year' into intervals of decades/centuries/half centuries and then make them into factors?
+
+Arvind says "console\> ? case_when\> enter"
+
+## Exercise 2 - Play!
+
+```{r}
+#| eval: false
+star_trek_data <- read_csv("../../Data/star_trek_books.csv")
+star_trek_data
+```
+
+```{r}
+star_trek_data <- read_delim(file = "../../Data/star_trek_books.csv", delim = ";")
+star_trek_data
+```
+
+> ### Notes:
+>
+> -   .csv files read commas as separators.
+>
+> -   When faced with any other kind of separators, use "read_delim", default for that is semicolon
+
+```{r}
+star_trek_data %>% glimpse()
+```
+
+```{r}
+star_trek_data %>% inspect()
+```
+
+```{r}
+star_trek_data %>% skim()
+```
+
+```{r}
+star_trek_data %>%
+  group_by(publisher) %>%
+  summarize(avg_nchap = mean(nchap), avg_nw = mean(nword), avg_nchar = mean(nchar), count = n())
+```
+
+```{r}
+##star_trek_data %>% 
+  ##group_by(publisher) %>% 
+  ##summarize(author_count = sum(author))
+```

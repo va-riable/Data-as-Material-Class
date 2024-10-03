@@ -1,0 +1,272 @@
+---
+title: "Day 3: Counts and Quantities"
+author: "Vasantha M"
+format: html
+editor: visual
+---
+
+## Introduction:
+
+> ### Notes
+>
+> -   
+
+## Setup Chunk:
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(mosaic)
+library(ggformula)
+library(skimr)
+```
+
+## Reading Data:
+
+```{r}
+taxi <- read_csv("https://vincentarelbundock.github.io/Rdatasets/csv/modeldata/taxi.csv")
+taxi
+```
+
+```{r}
+taxi %>% glimpse()
+```
+
+```{r}
+taxi %>%inspect()
+```
+
+```{r}
+taxi %>% skim()
+```
+
+## Munging Data
+
+### Converting Qual Variables into Factors:
+
+```{r}
+taxi_modifiedA <- taxi %>%
+  dplyr::mutate(
+    tip = as_factor(tip),
+    local = as_factor(local),
+    month = as_factor(month),
+    dow = as_factor(dow),
+    company = as_factor(company),
+    hour = as_factor(hour)
+    
+  )
+glimpse(taxi_modifiedA)
+```
+
+```{r}
+taxi_modifiedA %>%inspect()
+```
+
+### Ordered Factors - Levels and Labels
+
+```{r}
+
+## Convert `dow`, `local`, and `month` into ordered factors
+taxi_modifiedB <- taxi_modifiedA %>%
+  mutate(
+    dow = factor(dow,
+      levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+      labels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+      ordered = TRUE
+    ),
+    ##
+    local = factor(local,
+      levels = c("yes", "no"),
+      labels = c("yes", "no"),
+      ordered = TRUE
+    ),
+    ##
+    month = factor(month,
+      levels = c("Jan", "Feb", "Mar", "Apr"),
+      labels = c("Jan", "Feb", "Mar", "Apr"),
+      ordered = TRUE
+    )
+  )
+taxi_modifiedB %>% glimpse()
+```
+
+```{r}
+taxi_modifiedB %>% inspect()
+```
+
+## Q1.A: Do more people tip than not?
+
+```{r}
+gf_bar(~tip, data = taxi_modifiedB) %>%
+  gf_labs(title = "Plot 1: Counts of Tips")
+```
+
+## Q2.A: Does the tip depend upon whether the trip is local or not?
+
+> ### Notes:
+>
+> -   color vs fill
+>
+> -   where are the colours coming from
+>
+> -   position: dodge vs stacked - DEFAULT IS STACKED
+
+```{r}
+taxi_modifiedB %>%
+  gf_bar(~local,
+    color = ~tip,
+    position = "dodge"
+  ) %>%
+  gf_labs(title = "Plot 2A.1: Dodged Bar Chart",
+          subtitle = "Using Colour")
+```
+
+```{r}
+taxi_modifiedB %>%
+  gf_bar(~local,
+    fill = ~tip,
+    position = "dodge"
+  ) %>%
+  gf_labs(title = "Plot 2A.2: Dodged Bar Chart",
+          subtitle = "Using Fill")
+```
+
+```{r}
+taxi_modifiedB %>%
+  gf_bar(~tip,
+    fill = ~local,
+    position = "dodge"
+  ) %>%
+  gf_labs(title = "Plot 2A.3: Dodged Bar Chart",
+          subtitle = "Flipping 'local' and 'tip' variables:")
+```
+
+```{r}
+taxi_modifiedB %>%
+  gf_bar(~local,
+    fill = ~tip,
+    position = "stack"
+  ) %>%
+  gf_labs(
+    title = "Plot 2B.1: Stacked Bar Chart",
+    subtitle = "Can we spot per group differences in proportions??"
+  )
+```
+
+```{r}
+taxi_modifiedB %>%
+  gf_bar(~tip,
+    fill = ~local,
+    position = "stack"
+  ) %>%
+  gf_labs(
+    title = "Plot 2B.2: Stacked Bar Chart",
+    subtitle = "Flipping 'local' and 'tip' variables:"
+  )
+
+```
+
+```{r}
+taxi_modifiedB %>%
+  gf_bar(~local,
+    fill = ~tip,
+    position = "fill"
+  ) %>%
+  gf_labs(
+    title = "Plot 2C: Filled Bar Chart",
+    subtitle = "Comparing using perecentages and ratios"
+  )
+```
+
+> ### Understandings from Graphs:
+>
+> -   Plot 2B. 1: People tip more often than not, regardless of if the trip is local or not.
+>
+> -   Plot 2B. 2: Majority of those who tip are going on trips that are not local. This may be true, but its not the *whole truth*.
+>
+>     *BECAUSE PERCENTAGS MATTER - THE NUMBER OF TRIPS THAT ARE LOCAL AND NOT LOCAL ARE NOT THE SAME.*
+>
+> -   Plot 2C: Now we can say,
+
+## Q3: Do some cab companies get more tips than others?
+
+```{r}
+taxi_modifiedB %>%
+  gf_bar(~ company,
+    fill = ~tip,
+    position = "fill"
+  ) %>%
+  gf_labs(
+    title = "Plot 3A: Filled Bar Chart",
+    subtitle = "Comparing using perecentages and ratios by company"
+  )
+```
+
+### Re-Ordering the columns.
+
+```{r}
+taxi_modifiedC <- taxi_modifiedB %>% 
+  group_by(company) %>%
+  summarise(tip_prop = prop(tip))%>% arrange(tip_prop)
+taxi_modifiedC
+
+```
+
+```{r}
+taxi_modifiedC %>%
+  gf_bar(~ company,
+    fill = ~tip_prop,
+    position = "fill"
+  ) %>%
+  gf_labs(
+    title = "Plot 3A: Filled Bar Chart",
+    subtitle = "Comparing using perecentages and ratios by company"
+  )
+
+ ```
+
+## Q4: **Does a tip depend upon the distance, hour of day, and DOW and month?**
+
+### Tips by Hour
+
+```{r}
+taxi_modifiedB %>%
+  gf_bar(~ hour,
+    fill = ~tip,
+    position = "fill"
+  ) %>%
+  gf_labs(
+    title = "Plot 4A: [Tips and Hour] Filled Bar Chart",
+    subtitle = ".."
+  )
+```
+
+### Tips by DOW
+
+```{r}
+taxi_modifiedB %>%
+  gf_bar(~ dow,
+    fill = ~tip,
+    position = "fill"
+  ) %>%
+  gf_labs(
+    title = "Plot 4B: [Tips and DOW] Filled Bar Chart",
+    subtitle = ".."
+  )
+```
+
+### Tips by month
+
+```{r}
+taxi_modifiedB %>%
+  gf_bar(~ month,
+    fill = ~tip,
+    position = "fill"
+  ) %>%
+  gf_labs(
+    title = "Plot 4C: [Tips and Month] Filled Bar Chart",
+    subtitle = ".."
+  )
+```
+
+### Tips 
