@@ -1,0 +1,239 @@
+---
+title: "Day 4: Quantities "
+author: "Vasantha M"
+---
+
+## Setting up:
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(mosaic)
+library(ggformula)
+library(skimr)
+library(crosstable)
+```
+
+## Looking Dataset "diamonds":
+
+> ### Notes:
+>
+> -   bins = the number of classes
+>
+>     -   the y-axis changes when you change the bins as more the number of class groups, less the number of units within that group \> count scale changes
+>     -   if the number of bins = the number of rows, it would result in a line graph with the area shaded
+>
+> -   alpha = opacity, valuable for overlapping values
+>
+> -   gf_facet_wrap = splits the levels of a variable into their respective graphs
+>
+> -   nrow = changes the scale on the y axis
+>
+> -   free_y = changes the scales on each graph on gf_facet_wrap
+
+```{r}
+diamonds
+```
+
+```{r}
+diamonds %>% glimpse()
+```
+
+```{r}
+diamonds %>% inspect()
+```
+
+```{r}
+diamonds %>% skim()
+```
+
+## Munging Data:
+
+There's nothing to be munged!
+
+## Q1: Price Distribution
+
+```{r}
+diamonds %>% 
+  gf_histogram(~price) %>%
+  gf_labs(
+    title = "Plot 1A: Diamond Prices",
+    caption = "bins=default=25"
+  )
+```
+
+```{r}
+diamonds %>% 
+  gf_histogram(~price,
+               bins =100) %>%
+  gf_labs(
+    title = "Plot 1B: Diamond Prices",
+    caption = "bins=100"
+  )
+```
+
+## Q2: Carat Distribution
+
+```{r}
+diamonds %>% 
+  gf_histogram(~carat) %>%
+  gf_labs(
+    title = "Plot 2A: Diamond Carats",
+    caption = "bins=default=25"
+  )
+
+```
+
+```{r}
+diamonds %>% 
+  gf_histogram(~carat,
+               bins = 100) %>%
+  gf_labs(
+    title = "Plot 2B: Diamond Carats",
+    caption = "bins=100"
+  )
+```
+
+```{r}
+diamonds %>% 
+  gf_histogram(~carat,
+               bins = 2000) %>%
+  gf_labs(
+    title = "Plot 2B: Diamond Carats",
+    caption = "bins=200"
+  )
+```
+
+```{r}
+diamonds %>% 
+  gf_plot(~carat,
+               bins = 100) %>%
+  gf_labs(
+    title = "Plot 2B: Diamond Carats",
+    caption = "bins=100"
+  )
+```
+
+## Q3: Price Distribution based on Cut, Clarity, Color
+
+> can you stack and dodge in histograms?
+
+```{r}
+diamonds %>% 
+  gf_histogram( ~price,
+               fill = ~cut,
+               color = "violet",
+               alpha = 0.8) %>%
+  gf_labs(
+    title="Plot 3A: Price distribution based on Cut",
+    caption="bins=default=25"
+  )
+  
+  
+```
+
+```{r}
+diamonds %>% 
+  gf_histogram( ~price,
+               fill = ~cut,
+               position = "dodge",
+               color = "violet",
+               alpha = 0.8) %>%
+  gf_labs(
+    title="Plot 3B: Price distribution based on Cut",
+    caption="bins = 25, position = dodge"
+  )
+```
+
+```{r}
+diamonds %>% 
+  gf_histogram( ~price,
+               fill = ~cut,
+               position = "fill",
+               color = "violet",
+               alpha = 0.8) %>%
+  gf_labs(
+    title="Plot 3C: Price distribution based on Cut",
+    caption="bins = 25, position = fill"
+  )
+```
+
+> Position 'dodge' and 'stacked' act as default for gf_facet_wrap. Fill doesn't make any sense to do as all coloumns would be 1 and filled.
+
+```{r}
+diamonds %>% 
+  gf_histogram( ~price,
+               fill = ~cut,
+               color = "violet",
+               alpha = 0.8) %>%
+  gf_facet_wrap(~cut) %>% 
+  gf_labs(
+    title="Plot 3B: Prices by Filled and Facetted by Cut",
+    caption="bins = 25"
+  )
+```
+
+```{r}
+diamonds %>%
+  gf_histogram(~price, fill = ~cut, color = "violet", alpha = 0.3) %>%
+  gf_facet_wrap(~cut, scales = "free_y", nrow = 2) %>%
+  gf_labs(
+    title = "Plot 3D: Prices Filled and Facetted by Cut",
+    subtitle = "Free y-scale, nrow = 2",
+    caption = "ggformula"
+  ) %>%
+  gf_theme(theme(
+    axis.text.x =
+      element_text(
+        angle = 45,
+        hjust = 1
+      )
+  ))
+```
+
+```{r}
+diamonds %>%
+  gf_histogram(~price, fill = ~cut, color = "violet", alpha = 0.3) %>%
+  gf_facet_wrap(~cut, scales = "free_y", nrow = 5) %>%
+  gf_labs(
+    title = "Plot 3D: Prices Filled and Facetted by Cut",
+    subtitle = "Free y-scale, nrow = 5",
+    caption = "ggformula"
+  ) %>%
+  gf_theme(theme(
+    axis.text.x =
+      element_text(
+        angle = 45,
+        hjust = 1
+      )
+  ))
+```
+
+## Looking at Dataset 'race':
+
+> ## Notes:
+>
+> -   favestats
+>
+> -   crosstables
+>
+> -   drop_na() = removes all missing variables
+
+```{r}
+race_df <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-10-26/race.csv")
+rank_df <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-10-26/ultra_rankings.csv")
+race_df
+
+```
+
+```{r}
+race_df %>% glimpse()
+```
+
+```{r}
+rank_df %>%glimpse()
+```
+
+```{r}
+rank_df %>%skim()
+```

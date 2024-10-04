@@ -171,5 +171,5 @@ star_trek_data %>%
 ```{r}
 ##star_trek_data %>% 
   ##group_by(publisher) %>% 
-  ##summarize(author_count = sum(author))
+  ##gitsummarize(author_count = sum(author))
 ```

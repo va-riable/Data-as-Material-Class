@@ -207,23 +207,43 @@ taxi_modifiedB %>%
 ```{r}
 taxi_modifiedC <- taxi_modifiedB %>% 
   group_by(company) %>%
-  summarise(tip_prop = prop(tip))%>% arrange(tip_prop)
+  summarise(tipyes_prop = prop(tip), tipno_prop= 1-prop(tip), count_tip = count(tip))%>% arrange(desc(tipyes_prop))
 taxi_modifiedC
 
 ```
 
 ```{r}
+taxi_modifiedC$company <- factor(taxi_modifiedC$company,
+                           levels = taxi_modifiedC$company[order(-taxi_modifiedC$tipyes_prop)])
+  
+taxi_modifiedC %>% glimpse()
+```
+
+```{r}
+##a = taxi_modifiedC$tipyes_prop
+##b = taxi_modifiedC$tipno_prop
+##tips = a+b
+##taxi_modifiedD <- taxi_modifiedC %>%
+  ##dplyr::mutate(
+    ##tip = factor(tip,
+                 ##levels = c("yes","no"),
+                 ##labels
+  ##)
+  
+```
+
+```{r}
 taxi_modifiedC %>%
   gf_bar(~ company,
-    fill = ~tip_prop,
+    fill = ~ tipyes_prop,
     position = "fill"
-  ) %>%
+  ) %>% 
   gf_labs(
     title = "Plot 3A: Filled Bar Chart",
     subtitle = "Comparing using perecentages and ratios by company"
   )
 
- ```
+```
 
 ## Q4: **Does a tip depend upon the distance, hour of day, and DOW and month?**
 
@@ -269,4 +289,4 @@ taxi_modifiedB %>%
   )
 ```
 
-### Tips 
+### Tips
