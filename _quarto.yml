@@ -12,8 +12,10 @@ website:
         href: https://twitter.com
 format:
   html:
-    theme: cosmo
+    theme: sandstone
     css: styles.css
+    toc: true
+    toc-depth: 4  # Specify the depth of headers to include in the TOC
 
 editor: visual
 

@@ -1,5 +1,5 @@
 ---
-title: "Day 3: Counts and Quantities"
+title: "Day 3: Counts"
 author: "Vasantha M"
 format: html
 editor: visual
@@ -7,11 +7,27 @@ editor: visual
 
 ## Introduction:
 
-> ### Notes
->
-> -   
+Today we as a class explored [Counts](https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/20-barplots/) using a data set, taxi, about taxi rides taken in Chicago in 2022. Under the 'Your Turn' section of the [Counts](https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/20-barplots/) page, I chose to investigate the dataset.
 
-## Setup Chunk:
+> ### Overview
+>
+> -   First install packages and call them to the document
+>
+> -   Then call the data set and perform glimpse(), inspect() and skim()
+>
+> -   If there is anything to be munged, the data is re-organised
+>
+> -   Looking at the data, questions are developed that can be answered by comparing variables
+>
+> -   Then, plot graphs, compare and analyze them
+>
+> -   Lastly revisit the entire process with a new dataset!
+
+.
+
+.
+
+### Setup Chunk:
 
 ```{r}
 #| label: setup
@@ -19,7 +35,12 @@ library(tidyverse)
 library(mosaic)
 library(ggformula)
 library(skimr)
+library(kableExtra)
 ```
+
+.
+
+.
 
 ## Reading Data:
 
@@ -33,6 +54,28 @@ taxi %>% glimpse()
 ```
 
 ```{r}
+##TABLE!!
+taxi %>%
+  head(20) %>%
+  kbl(
+   
+    col.names = c(
+      "SN", "Tip", "Distance",
+      "Company", "Local", "DOW",
+      "Month", "Hour"
+    ),
+    caption = "Taxi Dataset"
+  )%>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "hover",
+      "condensed", "responsive"
+    ),
+    full_width = F, position = "center"
+  )
+```
+
+```{r}
 taxi %>%inspect()
 ```
 
@@ -40,9 +83,15 @@ taxi %>%inspect()
 taxi %>% skim()
 ```
 
+.
+
+.
+
 ## Munging Data
 
-### Converting Qual Variables into Factors:
+.
+
+### Converting Qualitative Variables into Factors:
 
 ```{r}
 taxi_modifiedA <- taxi %>%
@@ -90,9 +139,21 @@ taxi_modifiedB <- taxi_modifiedA %>%
 taxi_modifiedB %>% glimpse()
 ```
 
+> ### Notes
+>
+> -   when ordered isn't set to true, the labels and levels resort to alphabetical as default
+
+.
+
+.
+
 ```{r}
 taxi_modifiedB %>% inspect()
 ```
+
+.
+
+.
 
 ## Q1.A: Do more people tip than not?
 
@@ -101,17 +162,30 @@ gf_bar(~tip, data = taxi_modifiedB) %>%
   gf_labs(title = "Plot 1: Counts of Tips")
 ```
 
-## Q2.A: Does the tip depend upon whether the trip is local or not?
+.
 
-> ### Notes:
+.
+
+> ### Notes
 >
 > -   color vs fill
 >
-> -   where are the colours coming from
+> -   where are the colours coming from? How can I change them
 >
 > -   position: dodge vs stacked - DEFAULT IS STACKED
+>
+> -   gf_bar - when the y is left blank, it counts
+>
+> -   gf_coloumn - gives the y axis to manually input
+
+.
+
+.
+
+## Q2.A: Does the tip depend upon whether the trip is local or not?
 
 ```{r}
+## using colour = ...
 taxi_modifiedB %>%
   gf_bar(~local,
     color = ~tip,
@@ -121,7 +195,10 @@ taxi_modifiedB %>%
           subtitle = "Using Colour")
 ```
 
+.
+
 ```{r}
+## Using fill = ...
 taxi_modifiedB %>%
   gf_bar(~local,
     fill = ~tip,
@@ -131,7 +208,10 @@ taxi_modifiedB %>%
           subtitle = "Using Fill")
 ```
 
+.
+
 ```{r}
+## Flipping facets
 taxi_modifiedB %>%
   gf_bar(~tip,
     fill = ~local,
@@ -141,7 +221,10 @@ taxi_modifiedB %>%
           subtitle = "Flipping 'local' and 'tip' variables:")
 ```
 
+.
+
 ```{r}
+## Using stack
 taxi_modifiedB %>%
   gf_bar(~local,
     fill = ~tip,
@@ -153,7 +236,10 @@ taxi_modifiedB %>%
   )
 ```
 
+.
+
 ```{r}
+## Flipping Facets
 taxi_modifiedB %>%
   gf_bar(~tip,
     fill = ~local,
@@ -166,7 +252,10 @@ taxi_modifiedB %>%
 
 ```
 
+.
+
 ```{r}
+## Using ratio proportions
 taxi_modifiedB %>%
   gf_bar(~local,
     fill = ~tip,
@@ -178,6 +267,10 @@ taxi_modifiedB %>%
   )
 ```
 
+.
+
+.
+
 > ### Understandings from Graphs:
 >
 > -   Plot 2B. 1: People tip more often than not, regardless of if the trip is local or not.
@@ -186,7 +279,11 @@ taxi_modifiedB %>%
 >
 >     *BECAUSE PERCENTAGS MATTER - THE NUMBER OF TRIPS THAT ARE LOCAL AND NOT LOCAL ARE NOT THE SAME.*
 >
-> -   Plot 2C: Now we can say,
+> -   Plot 2C: Now we can say for sure that more people tip on trips that are not local.
+
+.
+
+.
 
 ## Q3: Do some cab companies get more tips than others?
 
@@ -201,6 +298,8 @@ taxi_modifiedB %>%
     subtitle = "Comparing using perecentages and ratios by company"
   )
 ```
+
+.
 
 ### Re-Ordering the columns.
 
@@ -241,11 +340,32 @@ taxi_modifiedC %>%
   gf_labs(
     title = "Plot 3A: Filled Bar Chart",
     subtitle = "Comparing using perecentages and ratios by company"
-  )
+  ) %>% 
+  
+  gf_theme(theme(
+    axis.text.x = element_text(
+      angle = 45,
+      hjust = 1
+    )
+  ))
 
 ```
 
+.
+
+> ### Notes
+>
+> -   using arrange(), select() and reorder()
+>
+> -   Don't mix in BaseR when you have tidyverse!!
+>
+> -   How can I bring back the yes and no comparison of tips within each coloumn?
+
+.
+
 ## Q4: **Does a tip depend upon the distance, hour of day, and DOW and month?**
+
+.
 
 ### Tips by Hour
 
@@ -261,6 +381,8 @@ taxi_modifiedB %>%
   )
 ```
 
+.
+
 ### Tips by DOW
 
 ```{r}
@@ -274,6 +396,8 @@ taxi_modifiedB %>%
     subtitle = ".."
   )
 ```
+
+.
 
 ### Tips by month
 
@@ -289,4 +413,51 @@ taxi_modifiedB %>%
   )
 ```
 
-### Tips
+.
+
+### Tips by DOW and Month
+
+```{r}
+## With position default
+ taxi_modifiedB %>% 
+   gf_bar(~ month | dow, 
+       fill = ~tip) %>%
+  gf_labs(
+    title = "Plot E: Counts of Tips by Day of Week and Month")
+```
+
+.
+
+```{r}
+## With position fill
+ taxi_modifiedB %>% 
+   gf_bar(~ month | dow, 
+       fill = ~tip,
+       position = "fill") %>%
+  gf_labs(
+    title = "Plot E: Counts of Tips by Day of Week and Month",
+    subtitle = "According to ratio and proportions")
+```
+
+.
+
+### Tips by DOW an Hour
+
+```{r}
+
+taxi_modifiedB %>% 
+  gf_bar(~ hour | dow, 
+         fill = ~tip) %>%
+  gf_labs(
+    title = "Plot G: Counts of Tips by Hour and Day of Week",
+    
+  )
+
+## swapping facets would result in a graph that is harder to grasp
+```
+
+.
+
+.
+
+## Conclusion:

@@ -213,9 +213,9 @@ diamonds %>%
 
 > ## Notes:
 >
-> -   favestats
+> -   favestats = singles out specified row and gives its stats
 >
-> -   crosstables
+> -   crosstables = tabling more than two variables against eachother
 >
 > -   drop_na() = removes all missing variables
 
@@ -237,3 +237,31 @@ rank_df %>%glimpse()
 ```{r}
 rank_df %>%skim()
 ```
+
+### Using mosaic::favestats:
+
+```{r}
+race_df %>%
+  favstats(~distance, data = .)
+```
+
+```{r}
+
+race_df %>%
+  favstats(~participants, data = .)
+```
+
+```{r}
+##
+rank_df %>%
+  drop_na() %>%
+  favstats(time_in_seconds ~ gender, data = .)
+```
+
+## Coming up with Questions:
+
+1.  Do gender and age affect time in seconds
+
+## Q1:
+
+## Q2:

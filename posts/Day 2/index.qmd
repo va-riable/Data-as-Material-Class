@@ -1,19 +1,32 @@
 ---
-title: "Day 2: Summarizing Data"
+title: "Day 2: Summaries"
 author: "Vasantha M"
+format: html
 ---
 
-## Exercise 1 - Classwork On Summarizing Data
+## Introduction:
 
-> ### Notes:
+How do we make data sets more readable? How can we decide how to group variables and compare them against each other in terms of what we are using the data for? This is my journey of exploring these questions with the help of [Data Summaries](https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/10-favstats/#how-do-these-summaries-work).
+
+> ### Overview:
 >
-> -   Installing packages makes them available to all documents created in the future. {syntax: install.packages("")}
+> -   Install and call packages to the document
 >
-> -   In each document however, one must call on the packages using {library()} to "activate" them.
+> -   Select and call chosen data set
 >
-> -   Don't forget to add { #\| label: setup } in the first code chunk when calling the packages
+> -   Examining Data: Glimpse, Inspect, Skim and their different syntax
 >
-> -   Have only one quarto document open in one window, as R treats a session as a single data pool and can pull libraries across documents (which could complicate things later.
+> -   Data Munging: mutate(), as_factor(), group_by() and summarise()
+>
+> -   Exploring babynames data set
+>
+> -   Exploring Startrek data set
+
+.
+
+.
+
+### Set-up Chunk:
 
 ```{r}
 #| label: setup
@@ -26,47 +39,131 @@ library(kableExtra)
 library(babynames)
 ```
 
-### Looking at the 'mpg' Data Set:
+.
+
+.
+
+> ### Notes
+>
+> -   Installing packages makes them available to all documents created in the future. {syntax: install.packages("")}
+>
+> -   In each document however, one must call on the packages using {library()} to "activate" them.
+>
+> -   Don't forget to add { #\| label: setup } in the first code chunk when calling the packages
+>
+> -   Have only one quarto document open in one window, as R treats a session as a single data pool and can pull libraries across documents (which could complicate things later.
+
+.
+
+.
+
+## Looking at the 'mpg' Data Set:
 
 ```{r}
 mpg
 ```
 
-#### Using Glimpse
+.
+
+```{r}
+mpg %>%
+  head(10) %>%
+  kbl(
+    # add Human Readable column names
+    col.names = c(
+      "Manufacturer", "Model", "Engine\nDisplacement",
+      "Model\n Year", "Cylinders", "Transmission",
+      "Drivetrain", "City\n Mileage", "Highway\n Mileage",
+      "Fuel", "Class\nOf\nVehicle"
+    ),
+    caption = "MPG Dataset"
+  ) %>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "hover",
+      "condensed", "responsive"
+    ),
+    full_width = F, position = "center"
+  )
+```
+
+.
+
+.
+
+> ### Notes
+>
+> -   kbl - from the kableExtra package
+>
+> -   makes the data more human readable
+>
+> -   head(10) indicates the table will show 10 rows.
+>
+> -   '\\n' acts as line break
+>
+> -   **Styling (kable_styling):**
+>
+>     -   The table is styled using kable_styling with several bootstrap_options for appearance:
+>
+>         -   "striped": Alternating background colors on rows.
+>
+>         -   "hover": Highlights rows when hovering over them.
+>
+>         -   "condensed": Reduces the row height to make the table more compact.
+>
+>         -   "responsive": Ensures the table adjusts to different screen sizes.
+>
+>     -   full_width = F ensures that the table is not stretched to fill the entire width of the page but rather centered, as specified by position = "center".
+
+.
+
+.
+
+### Using Glimpse
 
 ```{r}
 glimpse(mpg)
 ```
 
-> Testing different syntax:
+#### *Testing different syntax:*
 
 ```{r}
 mpg %>% dplyr::glimpse()
 ```
 
+.
+
 > ### Notes
 >
-> -   
+> -   syntax essentially boils down to personal preference and readability of code.
 
-#### Using Inspect
+.
+
+### Using Inspect
 
 ```{r}
 inspect(mpg)
 ```
 
-#### Using Skim
+.
+
+### Using Skim
 
 ```{r}
 skimr::skim(mpg)
 ```
 
-> Testing different syntax:
+#### *Testing different syntax:*
 
 ```{r}
 skim(mpg)
 ```
 
-#### Data Munging - Mutating data according to your intent:
+.
+
+.
+
+## Data Munging - Mutating data according to your intent:
 
 ```{r}
 mpg_modified <- mpg %>%
@@ -84,11 +181,17 @@ glimpse(mpg_modified)
 inspect(mpg_modified)
 ```
 
+.
+
 > ### Notes
 >
-> -   
+> -   Why make characters into factors? it better organizes the data in hand for plotting.
+>
+> -   Sometimes qual data such as year and date are considered as quant data due to their numeric content. These variables can be turned into qual data through munging.
 
-#### Grouping by Qualitative Variables
+.
+
+### Grouping by Qualitative Variables
 
 Highway milage grouped by cylinder type:
 
@@ -106,12 +209,39 @@ mpg_modified %>%
   summarize(average_hwy = mean(hwy), count = n())
 ```
 
+.
+
 There should be 20 columns, but only there are only 8 as certain combinations of cars don't exisit in this data set.
 
-### Looking at the 'babynames' Data Set:
+.
+
+.
+
+## Looking at the 'babynames' Data Set:
 
 ```{r}
 glimpse(babynames)
+```
+
+```{r}
+## readable table for dataset babynames
+babynames %>%
+  head(20) %>%
+  kbl(
+    
+    col.names = c(
+      "Year", "Sex", "Name",
+      "Count", "Proportion"
+    ),
+    caption = "babynames Dataset"
+  ) %>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "hover",
+      "condensed", "responsive"
+    ),
+    full_width = F, position = "center"
+  )
 ```
 
 ```{r}
@@ -119,19 +249,48 @@ inspect(babynames)
 ```
 
 ```{r}
-bn_modone <- babynames %>%
-  dplyr::mutate(
-    sex = as_factor(sex),
-
+## transforming year from a quant variable to a qual variable
+bn_modone <- babynames %>% 
+  mutate(
+    year = as_factor(year),
+    name = as_factor(name)
   )
-glimpse(bn_modone)
 ```
 
-What if I wanted to make 'year' into intervals of decades/centuries/half centuries and then make them into factors?
+```{r}
+## grouping by sex to see how many names fall under each category totally (playing around with androgenous names)
 
-Arvind says "console\> ? case_when\> enter"
+bn_modtwo <- bn_modone %>%
+  group_by(sex) %>% 
+  summarise(n_names = count(sex), Krishna = count(name == "Krishna"), Sam = count(name == "Sam"),Samuel = count(name == "Samuel"), Samantha = count(name == "Samantha"), Alex = count(name == "Alex"), Alexander = count(name == "Alexander"), Alexis = count(name == "Alexis"), Kai = count(name == "Kai"), Liza = count(name == "Liza"), Keethi_Keerti_kirthi_kirti = count(name == "Keerthi" | name == "Kirti"|name == "Keerti"|name == "Kirthi"), Manal = count(name == "Manal"))
 
-## Exercise 2 - Play!
+glimpse(bn_modtwo)
+```
+
+```{r}
+## trying to understand what exactly count(sex) means, as there are 'M' and 'F' both...
+bn_modthree <- bn_modone %>%
+  group_by(year) %>% 
+  summarise(n_names = count(sex))
+
+glimpse(bn_modthree)
+```
+
+.
+
+> ### Notes
+>
+> -   What if I wanted to make 'year' into intervals of decades/centuries/half centuries and then make them into factors?
+>
+>     Arvind says "console\> ? case_when\> enter"
+>
+> -   What does the numerical output of count(sex) mean when grouped by year? Is it the count of only one sex? Or Both?
+
+.
+
+.
+
+## Looking at Star Trek Data Set:
 
 ```{r}
 #| eval: false
@@ -144,14 +303,47 @@ star_trek_data <- read_delim(file = "../../Data/star_trek_books.csv", delim = ";
 star_trek_data
 ```
 
-> ### Notes:
+.
+
+> ### Notes
 >
 > -   .csv files read commas as separators.
 >
 > -   When faced with any other kind of separators, use "read_delim", default for that is semicolon
 
+.
+
 ```{r}
 star_trek_data %>% glimpse()
+```
+
+### Making an easy-to-read Table:
+
+```{r}
+## removig the last coloumn for the sake of readability
+startrek_data_mod <- star_trek_data %>%
+  select(-dedication)
+
+## formatting table for better readability
+startrek_data_mod %>%
+  head(20) %>%
+  kbl(
+    # add Human Readable column names
+    col.names = c(
+      "Title", "Author", "Date",
+      "Publisher", "Identifier", "Series",
+      "Subseries", "Number\n of\n Chapters", "Number\n of\n Words",
+      "Number\n of\n Characters"
+    ),
+    caption = "Startrek Dataset"
+  ) %>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "hover",
+      "condensed", "responsive"
+    ),
+    full_width = F, position = "center"
+  )
 ```
 
 ```{r}
@@ -162,10 +354,37 @@ star_trek_data %>% inspect()
 star_trek_data %>% skim()
 ```
 
+.
+
+.
+
+## Munging Star Trek Data:
+
 ```{r}
-star_trek_data %>%
+
+## grouping by publisher to understand the average of certain quant variables
+startrek_munged <- star_trek_data %>%
   group_by(publisher) %>%
   summarize(avg_nchap = mean(nchap), avg_nw = mean(nword), avg_nchar = mean(nchar), count = n())
+
+## creating a readable table for this summary
+startrek_munged %>%
+  head(20) %>%
+  kbl(
+    col.names = c(
+      "Publisher","Average\n #of\n Chapters", "Average\n #of\n Words", "Average\n #of\n Characters",
+      "Total\n #of\n Books"
+    ),
+    caption = "Startrek Dataset - Munged"
+  ) %>%
+  column_spec(1 , border_right = TRUE) %>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "hover",
+      "condensed", "responsive"
+    ),
+    full_width = F, position = "center"
+  )
 ```
 
 ```{r}
@@ -173,3 +392,9 @@ star_trek_data %>%
   ##group_by(publisher) %>% 
   ##gitsummarize(author_count = sum(author))
 ```
+
+.
+
+.
+
+## Conclusion:
