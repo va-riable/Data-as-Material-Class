@@ -7,7 +7,7 @@ editor: visual
 
 ## Introduction:
 
-Today we as a class explored [Counts](https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/20-barplots/) using a data set, taxi, about taxi rides taken in Chicago in 2022. Under the 'Your Turn' section of the [Counts](https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/20-barplots/) page, I chose to investigate the dataset.
+Today we as a class explored [Counts](https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/20-barplots/) using a data set, taxi, about taxi rides taken in Chicago in 2022. Under the 'Your Turn' section of the [Counts](https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/20-barplots/) page, I chose to investigate the fertility data set.
 
 > ### Overview
 >
@@ -455,6 +455,514 @@ taxi_modifiedB %>%
 
 ## swapping facets would result in a graph that is harder to grasp
 ```
+
+.
+
+.
+
+## 'Your Turn': Fertility Data Set:
+
+.
+
+### Examining Data:
+
+```{r}
+fertility <- read_csv( file = "../../Data/Fertility.csv")
+fertility%>%glimpse()
+```
+
+```{r}
+## Table
+fertility %>%
+  head(20)%>%
+  kbl(
+   
+    col.names = c(
+      "SN", "More\n Children", "First\n Child",
+      "Second\n Child", "Age", "African\n American","Hispanic", "Other", "Work\n in Hours"
+      
+    ),
+    caption = "Fertility Dataset"
+  )%>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "hover",
+      "condensed", "responsive"
+    ),
+    full_width = F, position = "center"
+  )
+```
+
+```{r}
+fertility %>% inspect()
+```
+
+.
+
+.
+
+### Data Dictionary:
+
+I tried finding where the data set originated, but couldn't really trace anything back. From what I could make sense of it, these are my assumptions:
+
+-   There `2,54,654` participants that make up this dataset, with no missing entries.
+
+<!-- -->
+
+-   `morekids`: Those who want more kids, either `yes` or `no`
+
+-   `gender1`: Gender of the first child
+
+-   `gender2`: Gender of the second child
+
+-   `age`: age of the participant in years
+
+-   `afam`: if the participant identifies as African American, either `yes` or `no`
+
+-   `hispanic`: if the participant identifies as Hispanic, either `yes` or `no`
+
+-   `other`: if the participant identifies as another minority, either `yes` or `no`
+
+-   `work:` the number of hours worked in a week
+
+.
+
+.
+
+### Munging Data:
+
+```{r}
+fertility_modified <- fertility%>%
+  mutate(
+    morekids = as_factor(morekids),
+    gender1 = as_factor(gender1),
+    gender2 = as_factor(gender2),
+    afam = as_factor(afam),
+    hispanic = as_factor(hispanic),
+    other = as_factor(other),
+  )
+glimpse(fertility_modified)
+```
+
+```{r}
+fertility_modified %>%
+  dplyr::mutate(
+    morekids = factor(morekids,
+      levels = c("yes", "no"),
+      labels = c("Yes", "No"),
+      ordered = TRUE
+    ),
+    ##
+    gender1 = factor(gender1,
+      levels = c("male", "female"),
+      labels = c("Male", "Female"),
+      ordered = TRUE
+    ),
+    ##
+    gender2 = factor(gender2,
+      levels = c("male", "female"),
+      labels = c("Male", "Female"),
+      ordered = TRUE
+    ),
+    ##
+    afam = factor(afam,
+      levels = c("yes", "no"),
+      labels = c("Yes", "No"),
+      ordered = TRUE
+    ),
+     ##
+    hispanic = factor(hispanic,
+      levels = c("yes", "no"),
+      labels = c("Yes", "No"),
+      ordered = TRUE
+    ),
+     ##
+    other = factor(other,
+      levels = c("yes", "no"),
+      labels = c("Yes", "No"),
+      ordered = TRUE
+    )
+  )
+fertility_modified %>% glimpse()
+  
+```
+
+.
+
+### Q0: How many participants want more kids?
+
+```{r}
+## Count of those who want more kids
+fertility_modified %>% gf_bar(~morekids) %>%
+  gf_labs(title = "Plot 0.A: Counts of those who want More Kids",
+          subtitle = "fill = none")
+```
+
+.
+
+```{r}
+## Propotion of those who want more kids
+fertility_modified %>% 
+  gf_bar(~morekids,
+         fill = ~morekids,
+          position = "stack"           ) %>%
+  gf_labs(title = "Plot 0.B: Proportion of those who want More Kids",
+          subtitle = "position = 'fill'")
+```
+
+.
+
+> Essentialy I wanted a graph with a single bar, but toggling with 'position' doesn't seem to be doing anything. Why?
+>
+> But moving on:
+
+.
+
+.
+
+### Q1: How does the number of working hours affect the likelihood of wanting more kids?
+
+.
+
+```{r}
+## trying to use gf_col and make the y axis working hours
+fertility_modified %>%
+  drop_na(work) %>% 
+  gf_col(work ~ morekids) %>%
+  gf_labs(title = "Plot 1.A: Those who want More Kids plotted against Working Hours",
+          subtitle = "fill = none")
+```
+
+> not really the result I was looking for; why is the y axis in a logarithmic scale??
+
+```{r}
+## trying with gf_bar and fill instead
+fertility_modified %>% 
+  gf_bar(~work,
+         fill = ~morekids,
+         position = "fill") %>%
+  gf_labs(title = "Plot 1.B: Those who want More Kids by Working Hours",
+          subtitle = "fill = morekids")
+```
+
+.
+
+> Now that's more like it!!
+>
+> How would this look like as a line graph?
+
+.
+
+```{r}
+## work vs morekids line graph
+fertility_modified %>%
+  group_by(work) %>% 
+  summarize(morekidsprop = mean(morekids == "yes")) %>% 
+  gf_line(morekidsprop ~ work)%>%
+  gf_labs(title = "Plot 1.C:  Proportion of Those who want More Kids by Working Hours",
+          subtitle = "line graph")
+  
+```
+
+.
+
+> -   **Understandings from the Graphs:**
+>
+>     -   Plot 0.A: In general, there are more people who do not wan;t kids.
+>
+>     -   Plot 1.B: There seems to be a gradual decline in those who want kids as the work hours per week increase
+>
+>     -   Plot 1.C: The line graph indicates that there is indeed a decline overall, though it is not a smooth one. When looking at those who work 50 hours a week, the proportion of those who want kids is definitely less than those who work 0 hours a week - However, the same graph indicates that those who work 25 hours a week have a higher proportion of those who want kids in comparison to those who work 23 hours (a lesser amount).
+>
+> -   Lets plot other variables to see if there are any stronger patterns
+
+.
+
+.
+
+### Q2: Does age affect the likelihood of wanting more kids?
+
+.
+
+```{r}
+## plotting age vs morekids
+fertility_modified %>% 
+  gf_bar(~age,
+         fill = ~morekids,
+         position = "fill") %>%
+  gf_labs(title = "Plot 2: Those who want More Kids by their age",
+          subtitle = "fill = morekids")
+```
+
+.
+
+> Wow, interestingly, the proportion of those who want more kids increases steadily with age.
+
+.
+
+.
+
+### Q3: How do age and work factor into wanting more kids?
+
+.
+
+```{r}
+## plotting morekids against both age and work
+fertility_modified %>%
+  gf_bar(~ work | age,
+         fill = ~morekids,
+         position = "fill") %>%
+  gf_labs(title = "Plot 3.A: Those who want More Kids by Age and Working Hours",
+          subtitle = "fill = morekids")
+ 
+```
+
+> The readability is quite low.. what if i filter the ages to look at individually?
+
+```{r}
+## plotting morekids against both age and work - filtered
+fertility_modified %>% 
+  filter(age == "21")%>%
+  gf_bar(~ work | age,
+         fill = ~morekids,
+         position = "fill") %>%
+  gf_labs(title = "Plot 3.B: Those who are 21 vs More Kids and Working Hours",
+          subtitle = "fill = morekids")
+ 
+```
+
+.
+
+> -   **Understandings from the Graphs:**
+>
+>     -   Plot 3.A: Those who are younger seem to have more variation in terms of wanting more kids, that is, it does not seem to be related to their hours of work. Those who are older seem to be of similar opinions across different amounts of work hours, but there is still no established pattern in the relation of the two variables
+>
+>     -   Plot 3.B: The missing bars indicate that there is no data at that intersection, i.e, there is nobody in this data set who is 21 years old and works 21 hours a week, and so on.
+
+.
+
+.
+
+### Q4: Do the gender of the existing children play a part in wanting more kids?
+
+.
+
+```{r}
+## plotting distribution of gender1 and gender 2
+fertility_modified %>% 
+  gf_bar(~ gender1 | gender2,
+         fill = ~morekids,
+         position = "stack") %>%
+  gf_labs(title = "Plot 4.A: morekids vs gender",
+          subtitle = "fill = morekids")
+```
+
+> How can this graph be made more readable?
+>
+> Lets try.
+
+```{r}
+fertility_modifiedA <- fertility_modified %>%
+  dplyr::mutate(
+    gender = paste( gender1, gender2, sep = "_"),
+    gender = factor(gender,
+                    levels = c("male_female", "male_male", "female_male", "female_female", ordered = TRUE ),
+                   labels = c("male&female", "male&male","male&female", "female&female", ordered = TRUE )))
+ 
+
+fertility_modifiedA
+
+```
+
+```{r}
+fertility_modifiedA%>% 
+  gf_bar(~morekids,
+         fill = ~gender,
+         position = "dodge"
+         )%>%
+  gf_labs(title = "Plot 4.B: morekids vs gender",
+          subtitle = "fill = gender")
+```
+
+> Success!
+>
+> Now in looking at proportion:
+
+```{r}
+fertility_modifiedA%>% 
+  gf_bar(~morekids,
+         fill = ~gender,
+         position = "fill"
+         )%>%
+  gf_labs(title = "Plot 4.C: morekids vs gender",
+          subtitle = "fill = gender")
+```
+
+.
+
+> -   **Understandings from the Graphs:**
+>
+>     -   Plot 4.A: The three combinations of gender are the same relative to each other in both 'yes' and 'no' sections under wanting more kids. in other words, both sections have participants with male and female children as the largest proportion and participants with two female kids making up the smallest proportion
+>
+>     -   Plot 4.B: Comparing the proportions, however, can tell us that **those who have two kids of the same gender already are more likely (even if by a small margin) to want more kids.**
+
+.
+
+.
+
+### Q5. What relation (if any) is there between ethnicity and wanting to have more kids?
+
+.
+
+```{r}
+fertility_modified %>% 
+  gf_bar(~morekids,
+         fill = ~afam,
+                              )%>%  
+gf_labs(
+  title = "Plot 5.A: Counts of those who want More Kids",
+  subtitle = "fill = afam")
+```
+
+.
+
+> Calculating proportions:
+
+.
+
+```{r}
+fertility_modified %>%
+  ##
+  group_by(morekids) %>% 
+  ##
+  summarise(afam_prop = prop(afam), 
+            hispanic_prop = prop(hispanic), 
+            other_prop = prop(other), 
+            majority_prop = sum(prop(afam),prop(hispanic), prop(other))) 
+  ## the proportions added up become more than 100%??
+  
+```
+
+.
+
+> Laying the groundwork, splitting up categories:
+
+.
+
+```{r}
+fertility_modifiedB <- fertility_modified %>%
+  group_by(morekids) %>% 
+  summarise(
+    afam_prop = mean(afam == "yes"),          
+    hispanic_prop = mean(hispanic == "yes"),  
+    other_prop = mean(other == "yes"),        
+    
+    ## since the proportions were added together and found to be more than one, identifying the overlapping categories
+    
+    afam_hispanic = mean(afam == "yes" & hispanic == "yes"),
+    afam_other = mean(afam == "yes" & other == "yes"),
+    hispanic_other = mean(other == "yes" & hispanic == "yes"),
+    ##
+    
+    only_hispanic = hispanic_prop - sum(hispanic_other, afam_hispanic),
+    
+    only_afam = afam_prop - sum(afam_hispanic, afam_other),
+    
+    only_other = other_prop - sum(afam_other, hispanic_other),
+    
+    majority_prop = mean(afam == "no"& hispanic == "no"& other == "no"),
+    minority_prop = sum(only_hispanic, only_afam, only_other, afam_hispanic, afam_other, hispanic_other))  
+
+glimpse(fertility_modifiedB)
+  
+
+```
+
+```{r}
+## Attempting to make my own data set with simply the propotions calculated after summary
+fertilitytwo <- readxl::read_excel("../../Data/fertilitytwo.xlsx")
+fertilitytwo
+## Quickly realising that won't work ;-;
+```
+
+.
+
+> Identifying the proportion of the minority, where the majority is defined by those who do not identify as Hispanic, African American or Other.
+
+.
+
+```{r}
+## majority vs minority
+fertility_modifiedB %>%
+  select(
+    morekids, majority_prop, minority_prop
+  ) %>%
+  pivot_longer(cols = c(majority_prop, minority_prop),
+               cols_vary = "fastest",
+               names_to = "ethnicity") %>%
+  mutate(
+          ethnicity = factor(ethnicity,
+                              levels = c( "majority_prop", "minority_prop"))
+               ) %>% 
+  gf_col(value ~ morekids,
+         fill = ~ethnicity,
+         position = "fill") %>%
+  gf_labs(
+    title = "Plot 5.B: Ethnicity: majority and minority vs morekids",
+    subtitle = "position = fill"
+  )
+```
+
+.
+
+```{r}
+## trying pivot longer 
+fertility_modifiedB %>%select(-afam_prop, -hispanic_prop,-other_prop, -majority_prop)%>%
+  pivot_longer(cols = c(only_hispanic, only_afam, only_other, afam_hispanic, hispanic_other),
+               cols_vary = "fastest",
+               names_to = "ethnicity") %>% 
+  mutate(
+                 ethnicity = factor(ethnicity,
+                                    levels = c( "only_afam", "afam_hispanic", "only_hispanic", "hispanic_other", "only_other", ordered = TRUE ))
+               ) %>% 
+  gf_col(value ~ morekids,
+         fill = ~ethnicity,
+         position = "dodge") %>%
+  gf_labs(
+    title = "Plot 5.C: minority ethnicity vs morekids",
+    subtitle = "position = dodge"
+  )
+
+```
+
+```{r}
+## PROPORTION
+fertility_modifiedB %>%select(-afam_prop, -hispanic_prop,-other_prop, -majority_prop)%>%
+  pivot_longer(cols = c(only_hispanic, only_afam, only_other, afam_hispanic, hispanic_other),
+               cols_vary = "fastest",
+               names_to = "ethnicity") %>% mutate(
+                 ethnicity = factor(ethnicity,
+                                    levels = c( "only_afam", "afam_hispanic", "only_hispanic", "hispanic_other", "only_other", ordered = TRUE ))
+               ) %>%
+   
+  gf_col(value ~ morekids,
+         fill = ~ethnicity,
+         position = "fill")%>%
+  gf_labs(
+    title = "Plot 5.D: minority ethnicity vs morekids",
+    subtitle = "position = fill"
+  )
+```
+
+.
+
+> -   **Understandings from graphs:**
+>
+>     -   Plot 5.B: Minority ethnicities have a higher proportion of those who want more kids.
+>
+>     -   Plot 5.C: There is no strong pattern to be concerned with in this plot, as some categories bleed into one another.
+>
+>     -   Plot 5.D: Those who identify as Hispanic make up for most of those in the minority ethnicity category who want to have more kids, even if by a small margin. The 'African American Only' and 'Other Only' categories are ever so slightly smaller than their proportion in the 'no' more kids category.
 
 .
 

@@ -1,0 +1,124 @@
+---
+title: "Day 5: Groups"
+author: "Vasantha M"
+format: html
+editor: visual
+---
+
+## Introduction
+
+Today in class we discuss groups and box-plots.
+
+> ### Overview:
+>
+> -   install new package 'palmerpenguins'
+
+### Setup Chunk
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(mosaic)
+library(ggformula)
+library(palmerpenguins)
+```
+
+## Examining Data:
+
+```{r}
+## Looking at the gss wages dataset
+wages <- read_csv("https://vincentarelbundock.github.io/Rdatasets/csv/stevedata/gss_wages.csv")
+
+##
+wages
+```
+
+```{r}
+wages %>% glimpse()
+```
+
+```{r}
+wages %>% inspect()
+```
+
+## Munging Data:
+
+> -   we can remove missing data in this case as there is enough data leftover to work with.
+
+```{r}
+wages_clean <-
+  wages %>%
+  tidyr::drop_na(realrinc) # choose column or leave blank to choose all
+```
+
+```{r}
+wages_clean <- wages_clean %>%
+  mutate(
+    occrecode = as_factor(occrecode),
+    wrkstat = as_factor(wrkstat),
+    gender = as_factor(gender),
+    educcat = as_factor(educcat),
+    maritalcat = as_factor(maritalcat),
+    rownames = as_factor(rownames),
+    year = as_factor(year)
+    
+  )
+wages_clean
+```
+
+```{r}
+wages_clean %>% inspect()
+```
+
+## Q1: What is the basic distribution of realrinc (the respondant's base income)?
+
+```{r}
+wages_clean %>%
+  gf_boxplot(realrinc ~ "Income") %>% # Dummy X-axis "variable"
+  gf_labs(
+    title = "Plot 1A: Income has a skewed distribution",
+    subtitle = "Many outliers on the high side"
+  )
+```
+
+> -   This graph has been plotted on a logarithmic scale (1e+05 = 1 x10\^5, 2e+05 = 2x10\^5 and so on) as the data spans a wide range of values
+> -   **FROM THIS GRAPH**
+>     -   Income is a very skewed distribution, as might be expected.
+>     -   Presence of many higher-side outliers is noted.
+
+## Q2: Is realrinc affected by gender?
+
+```{r}
+wages_clean %>%
+  gf_boxplot(gender ~ realrinc) %>%
+  gf_labs(title = "Plot 2A: Income by Gender")
+```
+
+> converting scalenatural log to log base 10. why??
+
+```{r}
+wages_clean %>%
+  gf_boxplot(gender ~ log10(realrinc)) %>%
+  gf_labs(title = "Plot 2B: Log(Income) by Gender")
+
+
+```
+
+```{r}
+wages_clean %>%
+  gf_boxplot(gender ~ realrinc, fill = ~gender) %>%
+  gf_refine(scale_x_log10()) %>%
+  gf_labs(title = "Plot 2C: Income filled by Gender, log scale")
+
+
+```
+
+> -   **FROM THE GRAPHS:**
+>
+>     -   Even when split by gender, realincome presents a skewed set of distributions.
+>
+>     -   The IQR for males is smaller than the IQR for females. There is less variation in the middle ranges of realrinc for men.
+>
+>     -   log10 transformation helps to view and understand the regions of low realrinc.
+>
+>     -   There are outliers on both sides, indicating that there may be many people who make very small amounts of money and large amounts of money in both genders.

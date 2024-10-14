@@ -203,6 +203,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#tips-by-dow-and-month" id="toc-tips-by-dow-and-month" class="nav-link" data-scroll-target="#tips-by-dow-and-month">Tips by DOW and Month</a></li>
   <li><a href="#tips-by-dow-an-hour" id="toc-tips-by-dow-an-hour" class="nav-link" data-scroll-target="#tips-by-dow-an-hour">Tips by DOW an Hour</a></li>
   </ul></li>
+  <li><a href="#your-turn-fertility-data-set" id="toc-your-turn-fertility-data-set" class="nav-link" data-scroll-target="#your-turn-fertility-data-set">‘Your Turn’: Fertility Data Set:</a>
+  <ul>
+  <li><a href="#examining-data" id="toc-examining-data" class="nav-link" data-scroll-target="#examining-data">Examining Data:</a></li>
+  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary">Data Dictionary:</a></li>
+  <li><a href="#munging-data-1" id="toc-munging-data-1" class="nav-link" data-scroll-target="#munging-data-1">Munging Data:</a></li>
+  <li><a href="#q0-how-many-participants-want-more-kids" id="toc-q0-how-many-participants-want-more-kids" class="nav-link" data-scroll-target="#q0-how-many-participants-want-more-kids">Q0: How many participants want more kids?</a></li>
+  <li><a href="#q1-how-does-the-number-of-working-hours-affect-the-likelihood-of-wanting-more-kids" id="toc-q1-how-does-the-number-of-working-hours-affect-the-likelihood-of-wanting-more-kids" class="nav-link" data-scroll-target="#q1-how-does-the-number-of-working-hours-affect-the-likelihood-of-wanting-more-kids">Q1: How does the number of working hours affect the likelihood of wanting more kids?</a></li>
+  <li><a href="#q2-does-age-affect-the-likelihood-of-wanting-more-kids" id="toc-q2-does-age-affect-the-likelihood-of-wanting-more-kids" class="nav-link" data-scroll-target="#q2-does-age-affect-the-likelihood-of-wanting-more-kids">Q2: Does age affect the likelihood of wanting more kids?</a></li>
+  <li><a href="#q3-how-do-age-and-work-factor-into-wanting-more-kids" id="toc-q3-how-do-age-and-work-factor-into-wanting-more-kids" class="nav-link" data-scroll-target="#q3-how-do-age-and-work-factor-into-wanting-more-kids">Q3: How do age and work factor into wanting more kids?</a></li>
+  <li><a href="#q4-do-the-gender-of-the-existing-children-play-a-part-in-wanting-more-kids" id="toc-q4-do-the-gender-of-the-existing-children-play-a-part-in-wanting-more-kids" class="nav-link" data-scroll-target="#q4-do-the-gender-of-the-existing-children-play-a-part-in-wanting-more-kids">Q4: Do the gender of the existing children play a part in wanting more kids?</a></li>
+  <li><a href="#q5.-what-relation-if-any-is-there-between-ethnicity-and-wanting-to-have-more-kids" id="toc-q5.-what-relation-if-any-is-there-between-ethnicity-and-wanting-to-have-more-kids" class="nav-link" data-scroll-target="#q5.-what-relation-if-any-is-there-between-ethnicity-and-wanting-to-have-more-kids">Q5. What relation (if any) is there between ethnicity and wanting to have more kids?</a></li>
+  </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion:</a></li>
   </ul>
 </nav>
@@ -216,7 +228,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction:</h2>
-<p>Today we as a class explored <a href="https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/20-barplots/">Counts</a> using a data set, taxi, about taxi rides taken in Chicago in 2022. Under the ‘Your Turn’ section of the <a href="https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/20-barplots/">Counts</a> page, I chose to investigate the dataset.</p>
+<p>Today we as a class explored <a href="https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/20-barplots/">Counts</a> using a data set, taxi, about taxi rides taken in Chicago in 2022. Under the ‘Your Turn’ section of the <a href="https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/20-barplots/">Counts</a> page, I chose to investigate the fertility data set.</p>
 <blockquote class="blockquote">
 <h3 id="overview" class="anchored">Overview</h3>
 <ul>
@@ -1348,6 +1360,962 @@ $ count_tip   &lt;int&gt; 741, 1298, 2519, 1100, 1139, 1534, 878</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">## swapping facets would result in a graph that is harder to grasp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>.</p>
+<p>.</p>
+</section>
+</section>
+<section id="your-turn-fertility-data-set" class="level2">
+<h2 class="anchored" data-anchor-id="your-turn-fertility-data-set">‘Your Turn’: Fertility Data Set:</h2>
+<p>.</p>
+<section id="examining-data" class="level3">
+<h3 class="anchored" data-anchor-id="examining-data">Examining Data:</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>fertility <span class="ot">&lt;-</span> <span class="fu">read_csv</span>( <span class="at">file =</span> <span class="st">"../../Data/Fertility.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 254654 Columns: 9
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (6): morekids, gender1, gender2, afam, hispanic, other
+dbl (3): rownames, age, work
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>fertility<span class="sc">%&gt;%</span><span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 254,654
+Columns: 9
+$ rownames &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…
+$ morekids &lt;chr&gt; "no", "no", "no", "no", "no", "no", "no", "no", "no", "no", "…
+$ gender1  &lt;chr&gt; "male", "female", "male", "male", "female", "male", "female",…
+$ gender2  &lt;chr&gt; "female", "male", "female", "female", "female", "female", "ma…
+$ age      &lt;dbl&gt; 27, 30, 27, 35, 30, 26, 29, 33, 29, 27, 28, 28, 35, 34, 32, 2…
+$ afam     &lt;chr&gt; "no", "no", "no", "yes", "no", "no", "no", "no", "no", "no", …
+$ hispanic &lt;chr&gt; "no", "no", "no", "no", "no", "no", "no", "no", "no", "no", "…
+$ other    &lt;chr&gt; "no", "no", "no", "no", "no", "no", "no", "no", "no", "no", "…
+$ work     &lt;dbl&gt; 0, 30, 0, 0, 22, 40, 0, 52, 0, 0, 0, 52, 52, 52, 8, 7, 0, 40,…</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Table</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>fertility <span class="sc">%&gt;%</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"SN"</span>, <span class="st">"More</span><span class="sc">\n</span><span class="st"> Children"</span>, <span class="st">"First</span><span class="sc">\n</span><span class="st"> Child"</span>,</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Second</span><span class="sc">\n</span><span class="st"> Child"</span>, <span class="st">"Age"</span>, <span class="st">"African</span><span class="sc">\n</span><span class="st"> American"</span>,<span class="st">"Hispanic"</span>, <span class="st">"Other"</span>, <span class="st">"Work</span><span class="sc">\n</span><span class="st"> in Hours"</span></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Fertility Dataset"</span></span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">%&gt;%</span></span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(</span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"striped"</span>, <span class="st">"hover"</span>,</span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"condensed"</span>, <span class="st">"responsive"</span></span>
+<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> F, <span class="at">position =</span> <span class="st">"center"</span></span>
+<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Fertility Dataset</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">SN</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">More Children</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">First Child</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Second Child</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Age</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">African American</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Hispanic</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Other</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Work in Hours</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">40</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">40</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>fertility <span class="sc">%&gt;%</span> <span class="fu">inspect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+categorical variables:  
+      name     class levels      n missing
+1 morekids character      2 254654       0
+2  gender1 character      2 254654       0
+3  gender2 character      2 254654       0
+4     afam character      2 254654       0
+5 hispanic character      2 254654       0
+6    other character      2 254654       0
+                                   distribution
+1 no (61.9%), yes (38.1%)                      
+2 male (51.4%), female (48.6%)                 
+3 male (51.3%), female (48.7%)                 
+4 no (94.8%), yes (5.2%)                       
+5 no (92.6%), yes (7.4%)                       
+6 no (94.4%), yes (5.6%)                       
+
+quantitative variables:  
+      name   class min       Q1   median       Q3    max         mean
+1 rownames numeric   1 63664.25 127327.5 190990.8 254654 127327.50000
+2      age numeric  21    28.00     31.0     33.0     35     30.39327
+3     work numeric   0     0.00      5.0     44.0     52     19.01833
+            sd      n missing
+1 73512.422063 254654       0
+2     3.386447 254654       0
+3    21.867277 254654       0</code></pre>
+</div>
+</div>
+<p>.</p>
+<p>.</p>
+</section>
+<section id="data-dictionary" class="level3">
+<h3 class="anchored" data-anchor-id="data-dictionary">Data Dictionary:</h3>
+<p>I tried finding where the data set originated, but couldn’t really trace anything back. From what I could make sense of it, these are my assumptions:</p>
+<ul>
+<li>There <code>2,54,654</code> participants that make up this dataset, with no missing entries.</li>
+</ul>
+<!-- -->
+<ul>
+<li><p><code>morekids</code>: Those who want more kids, either <code>yes</code> or <code>no</code></p></li>
+<li><p><code>gender1</code>: Gender of the first child</p></li>
+<li><p><code>gender2</code>: Gender of the second child</p></li>
+<li><p><code>age</code>: age of the participant in years</p></li>
+<li><p><code>afam</code>: if the participant identifies as African American, either <code>yes</code> or <code>no</code></p></li>
+<li><p><code>hispanic</code>: if the participant identifies as Hispanic, either <code>yes</code> or <code>no</code></p></li>
+<li><p><code>other</code>: if the participant identifies as another minority, either <code>yes</code> or <code>no</code></p></li>
+<li><p><code>work:</code> the number of hours worked in a week</p></li>
+</ul>
+<p>.</p>
+<p>.</p>
+</section>
+<section id="munging-data-1" class="level3">
+<h3 class="anchored" data-anchor-id="munging-data-1">Munging Data:</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="ot">&lt;-</span> fertility<span class="sc">%&gt;%</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">morekids =</span> <span class="fu">as_factor</span>(morekids),</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender1 =</span> <span class="fu">as_factor</span>(gender1),</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender2 =</span> <span class="fu">as_factor</span>(gender2),</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">afam =</span> <span class="fu">as_factor</span>(afam),</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">hispanic =</span> <span class="fu">as_factor</span>(hispanic),</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">other =</span> <span class="fu">as_factor</span>(other),</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(fertility_modified)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 254,654
+Columns: 9
+$ rownames &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…
+$ morekids &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, yes, no, no, no, no, …
+$ gender1  &lt;fct&gt; male, female, male, male, female, male, female, male, female,…
+$ gender2  &lt;fct&gt; female, male, female, female, female, female, male, male, mal…
+$ age      &lt;dbl&gt; 27, 30, 27, 35, 30, 26, 29, 33, 29, 27, 28, 28, 35, 34, 32, 2…
+$ afam     &lt;fct&gt; no, no, no, yes, no, no, no, no, no, no, no, no, no, no, no, …
+$ hispanic &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, n…
+$ other    &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, n…
+$ work     &lt;dbl&gt; 0, 30, 0, 0, 22, 40, 0, 52, 0, 0, 0, 52, 52, 52, 8, 7, 0, 40,…</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">morekids =</span> <span class="fu">factor</span>(morekids,</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>),</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>    <span class="do">##</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender1 =</span> <span class="fu">factor</span>(gender1,</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"male"</span>, <span class="st">"female"</span>),</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>),</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>    <span class="do">##</span></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender2 =</span> <span class="fu">factor</span>(gender2,</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"male"</span>, <span class="st">"female"</span>),</span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>),</span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>    <span class="do">##</span></span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">afam =</span> <span class="fu">factor</span>(afam,</span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>),</span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>     <span class="do">##</span></span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">hispanic =</span> <span class="fu">factor</span>(hispanic,</span>
+<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>),</span>
+<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a>     <span class="do">##</span></span>
+<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">other =</span> <span class="fu">factor</span>(other,</span>
+<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>),</span>
+<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 254,654 × 9
+   rownames morekids gender1 gender2   age afam  hispanic other  work
+      &lt;dbl&gt; &lt;ord&gt;    &lt;ord&gt;   &lt;ord&gt;   &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;    &lt;ord&gt; &lt;dbl&gt;
+ 1        1 No       Male    Female     27 No    No       No        0
+ 2        2 No       Female  Male       30 No    No       No       30
+ 3        3 No       Male    Female     27 No    No       No        0
+ 4        4 No       Male    Female     35 Yes   No       No        0
+ 5        5 No       Female  Female     30 No    No       No       22
+ 6        6 No       Male    Female     26 No    No       No       40
+ 7        7 No       Female  Male       29 No    No       No        0
+ 8        8 No       Male    Male       33 No    No       No       52
+ 9        9 No       Female  Male       29 No    No       No        0
+10       10 No       Male    Female     27 No    No       No        0
+# ℹ 254,644 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 254,654
+Columns: 9
+$ rownames &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…
+$ morekids &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, yes, no, no, no, no, …
+$ gender1  &lt;fct&gt; male, female, male, male, female, male, female, male, female,…
+$ gender2  &lt;fct&gt; female, male, female, female, female, female, male, male, mal…
+$ age      &lt;dbl&gt; 27, 30, 27, 35, 30, 26, 29, 33, 29, 27, 28, 28, 35, 34, 32, 2…
+$ afam     &lt;fct&gt; no, no, no, yes, no, no, no, no, no, no, no, no, no, no, no, …
+$ hispanic &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, n…
+$ other    &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, n…
+$ work     &lt;dbl&gt; 0, 30, 0, 0, 22, 40, 0, 52, 0, 0, 0, 52, 52, 52, 8, 7, 0, 40,…</code></pre>
+</div>
+</div>
+<p>.</p>
+</section>
+<section id="q0-how-many-participants-want-more-kids" class="level3">
+<h3 class="anchored" data-anchor-id="q0-how-many-participants-want-more-kids">Q0: How many participants want more kids?</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Count of those who want more kids</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span> <span class="fu">gf_bar</span>(<span class="sc">~</span>morekids) <span class="sc">%&gt;%</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">"Plot 0.A: Counts of those who want More Kids"</span>,</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"fill = none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Propotion of those who want more kids</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span> </span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_bar</span>(<span class="sc">~</span>morekids,</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="sc">~</span>morekids,</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">position =</span> <span class="st">"stack"</span>           ) <span class="sc">%&gt;%</span></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">"Plot 0.B: Proportion of those who want More Kids"</span>,</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"position = 'fill'"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>.</p>
+<blockquote class="blockquote">
+<p>Essentialy I wanted a graph with a single bar, but toggling with ‘position’ doesn’t seem to be doing anything. Why?</p>
+<p>But moving on:</p>
+</blockquote>
+<p>.</p>
+<p>.</p>
+</section>
+<section id="q1-how-does-the-number-of-working-hours-affect-the-likelihood-of-wanting-more-kids" class="level3">
+<h3 class="anchored" data-anchor-id="q1-how-does-the-number-of-working-hours-affect-the-likelihood-of-wanting-more-kids">Q1: How does the number of working hours affect the likelihood of wanting more kids?</h3>
+<p>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="do">## trying to use gf_col and make the y axis working hours</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(work) <span class="sc">%&gt;%</span> </span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_col</span>(work <span class="sc">~</span> morekids) <span class="sc">%&gt;%</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">"Plot 1.A: Those who want More Kids plotted against Working Hours"</span>,</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"fill = none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>not really the result I was looking for; why is the y axis in a logarithmic scale??</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="do">## trying with gf_bar and fill instead</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span> </span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_bar</span>(<span class="sc">~</span>work,</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="sc">~</span>morekids,</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">"Plot 1.B: Those who want More Kids by Working Hours"</span>,</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"fill = morekids"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>.</p>
+<blockquote class="blockquote">
+<p>Now that’s more like it!!</p>
+<p>How would this look like as a line graph?</p>
+</blockquote>
+<p>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="do">## work vs morekids line graph</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(work) <span class="sc">%&gt;%</span> </span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">morekidsprop =</span> <span class="fu">mean</span>(morekids <span class="sc">==</span> <span class="st">"yes"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_line</span>(morekidsprop <span class="sc">~</span> work)<span class="sc">%&gt;%</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">"Plot 1.C:  Proportion of Those who want More Kids by Working Hours"</span>,</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"line graph"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>.</p>
+<blockquote class="blockquote">
+<ul>
+<li><p><strong>Understandings from the Graphs:</strong></p>
+<ul>
+<li><p>Plot 0.A: In general, there are more people who do not wan;t kids.</p></li>
+<li><p>Plot 1.B: There seems to be a gradual decline in those who want kids as the work hours per week increase</p></li>
+<li><p>Plot 1.C: The line graph indicates that there is indeed a decline overall, though it is not a smooth one. When looking at those who work 50 hours a week, the proportion of those who want kids is definitely less than those who work 0 hours a week - However, the same graph indicates that those who work 25 hours a week have a higher proportion of those who want kids in comparison to those who work 23 hours (a lesser amount).</p></li>
+</ul></li>
+<li><p>Lets plot other variables to see if there are any stronger patterns</p></li>
+</ul>
+</blockquote>
+<p>.</p>
+<p>.</p>
+</section>
+<section id="q2-does-age-affect-the-likelihood-of-wanting-more-kids" class="level3">
+<h3 class="anchored" data-anchor-id="q2-does-age-affect-the-likelihood-of-wanting-more-kids">Q2: Does age affect the likelihood of wanting more kids?</h3>
+<p>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="do">## plotting age vs morekids</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span> </span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_bar</span>(<span class="sc">~</span>age,</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="sc">~</span>morekids,</span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">"Plot 2: Those who want More Kids by their age"</span>,</span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"fill = morekids"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>.</p>
+<blockquote class="blockquote">
+<p>Wow, interestingly, the proportion of those who want more kids increases steadily with age.</p>
+</blockquote>
+<p>.</p>
+<p>.</p>
+</section>
+<section id="q3-how-do-age-and-work-factor-into-wanting-more-kids" class="level3">
+<h3 class="anchored" data-anchor-id="q3-how-do-age-and-work-factor-into-wanting-more-kids">Q3: How do age and work factor into wanting more kids?</h3>
+<p>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="do">## plotting morekids against both age and work</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_bar</span>(<span class="sc">~</span> work <span class="sc">|</span> age,</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="sc">~</span>morekids,</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">"Plot 3.A: Those who want More Kids by Age and Working Hours"</span>,</span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"fill = morekids"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>The readability is quite low.. what if i filter the ages to look at individually?</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="do">## plotting morekids against both age and work - filtered</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span> </span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age <span class="sc">==</span> <span class="st">"21"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_bar</span>(<span class="sc">~</span> work <span class="sc">|</span> age,</span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="sc">~</span>morekids,</span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">"Plot 3.B: Those who are 21 vs More Kids and Working Hours"</span>,</span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"fill = morekids"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>.</p>
+<blockquote class="blockquote">
+<ul>
+<li><p><strong>Understandings from the Graphs:</strong></p>
+<ul>
+<li><p>Plot 3.A: Those who are younger seem to have more variation in terms of wanting more kids, that is, it does not seem to be related to their hours of work. Those who are older seem to be of similar opinions across different amounts of work hours, but there is still no established pattern in the relation of the two variables</p></li>
+<li><p>Plot 3.B: The missing bars indicate that there is no data at that intersection, i.e, there is nobody in this data set who is 21 years old and works 21 hours a week, and so on.</p></li>
+</ul></li>
+</ul>
+</blockquote>
+<p>.</p>
+<p>.</p>
+</section>
+<section id="q4-do-the-gender-of-the-existing-children-play-a-part-in-wanting-more-kids" class="level3">
+<h3 class="anchored" data-anchor-id="q4-do-the-gender-of-the-existing-children-play-a-part-in-wanting-more-kids">Q4: Do the gender of the existing children play a part in wanting more kids?</h3>
+<p>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="do">## plotting distribution of gender1 and gender 2</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span> </span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_bar</span>(<span class="sc">~</span> gender1 <span class="sc">|</span> gender2,</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="sc">~</span>morekids,</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">position =</span> <span class="st">"stack"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">"Plot 4.A: morekids vs gender"</span>,</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"fill = morekids"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>How can this graph be made more readable?</p>
+<p>Lets try.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>fertility_modifiedA <span class="ot">&lt;-</span> fertility_modified <span class="sc">%&gt;%</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">paste</span>( gender1, gender2, <span class="at">sep =</span> <span class="st">"_"</span>),</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">factor</span>(gender,</span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"male_female"</span>, <span class="st">"male_male"</span>, <span class="st">"female_male"</span>, <span class="st">"female_female"</span>, <span class="at">ordered =</span> <span class="cn">TRUE</span> ),</span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"male&amp;female"</span>, <span class="st">"male&amp;male"</span>,<span class="st">"male&amp;female"</span>, <span class="st">"female&amp;female"</span>, <span class="at">ordered =</span> <span class="cn">TRUE</span> )))</span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>fertility_modifiedA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 254,654 × 10
+   rownames morekids gender1 gender2   age afam  hispanic other  work gender    
+      &lt;dbl&gt; &lt;fct&gt;    &lt;fct&gt;   &lt;fct&gt;   &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;    &lt;fct&gt; &lt;dbl&gt; &lt;fct&gt;     
+ 1        1 no       male    female     27 no    no       no        0 male&amp;fema…
+ 2        2 no       female  male       30 no    no       no       30 male&amp;fema…
+ 3        3 no       male    female     27 no    no       no        0 male&amp;fema…
+ 4        4 no       male    female     35 yes   no       no        0 male&amp;fema…
+ 5        5 no       female  female     30 no    no       no       22 female&amp;fe…
+ 6        6 no       male    female     26 no    no       no       40 male&amp;fema…
+ 7        7 no       female  male       29 no    no       no        0 male&amp;fema…
+ 8        8 no       male    male       33 no    no       no       52 male&amp;male 
+ 9        9 no       female  male       29 no    no       no        0 male&amp;fema…
+10       10 no       male    female     27 no    no       no        0 male&amp;fema…
+# ℹ 254,644 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>fertility_modifiedA<span class="sc">%&gt;%</span> </span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_bar</span>(<span class="sc">~</span>morekids,</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="sc">~</span>gender,</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">position =</span> <span class="st">"dodge"</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>         )<span class="sc">%&gt;%</span></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">"Plot 4.B: morekids vs gender"</span>,</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"fill = gender"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Success!</p>
+<p>Now in looking at proportion:</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>fertility_modifiedA<span class="sc">%&gt;%</span> </span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_bar</span>(<span class="sc">~</span>morekids,</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="sc">~</span>gender,</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">position =</span> <span class="st">"fill"</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>         )<span class="sc">%&gt;%</span></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">"Plot 4.C: morekids vs gender"</span>,</span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"fill = gender"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>.</p>
+<blockquote class="blockquote">
+<ul>
+<li><p><strong>Understandings from the Graphs:</strong></p>
+<ul>
+<li><p>Plot 4.A: The three combinations of gender are the same relative to each other in both ‘yes’ and ‘no’ sections under wanting more kids. in other words, both sections have participants with male and female children as the largest proportion and participants with two female kids making up the smallest proportion</p></li>
+<li><p>Plot 4.B: Comparing the proportions, however, can tell us that <strong>those who have two kids of the same gender already are more likely (even if by a small margin) to want more kids.</strong></p></li>
+</ul></li>
+</ul>
+</blockquote>
+<p>.</p>
+<p>.</p>
+</section>
+<section id="q5.-what-relation-if-any-is-there-between-ethnicity-and-wanting-to-have-more-kids" class="level3">
+<h3 class="anchored" data-anchor-id="q5.-what-relation-if-any-is-there-between-ethnicity-and-wanting-to-have-more-kids">Q5. What relation (if any) is there between ethnicity and wanting to have more kids?</h3>
+<p>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span> </span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_bar</span>(<span class="sc">~</span>morekids,</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="sc">~</span>afam,</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>                              )<span class="sc">%&gt;%</span>  </span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_labs</span>(</span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Plot 5.A: Counts of those who want More Kids"</span>,</span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">subtitle =</span> <span class="st">"fill = afam"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>.</p>
+<blockquote class="blockquote">
+<p>Calculating proportions:</p>
+</blockquote>
+<p>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>fertility_modified <span class="sc">%&gt;%</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">##</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(morekids) <span class="sc">%&gt;%</span> </span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">##</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">afam_prop =</span> <span class="fu">prop</span>(afam), </span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">hispanic_prop =</span> <span class="fu">prop</span>(hispanic), </span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">other_prop =</span> <span class="fu">prop</span>(other), </span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">majority_prop =</span> <span class="fu">sum</span>(<span class="fu">prop</span>(afam),<span class="fu">prop</span>(hispanic), <span class="fu">prop</span>(other))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  morekids afam_prop hispanic_prop other_prop majority_prop
+  &lt;fct&gt;        &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+1 no           0.955         0.942      0.951          2.85
+2 yes          0.938         0.900      0.931          2.77</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>  <span class="do">## the proportions added up become more than 100%??</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>.</p>
+<blockquote class="blockquote">
+<p>Laying the groundwork, splitting up categories:</p>
+</blockquote>
+<p>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>fertility_modifiedB <span class="ot">&lt;-</span> fertility_modified <span class="sc">%&gt;%</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(morekids) <span class="sc">%&gt;%</span> </span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">afam_prop =</span> <span class="fu">mean</span>(afam <span class="sc">==</span> <span class="st">"yes"</span>),          </span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">hispanic_prop =</span> <span class="fu">mean</span>(hispanic <span class="sc">==</span> <span class="st">"yes"</span>),  </span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">other_prop =</span> <span class="fu">mean</span>(other <span class="sc">==</span> <span class="st">"yes"</span>),        </span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>    <span class="do">## since the proportions were added together and found to be more than one, identifying the overlapping categories</span></span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">afam_hispanic =</span> <span class="fu">mean</span>(afam <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span> hispanic <span class="sc">==</span> <span class="st">"yes"</span>),</span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">afam_other =</span> <span class="fu">mean</span>(afam <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span> other <span class="sc">==</span> <span class="st">"yes"</span>),</span>
+<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">hispanic_other =</span> <span class="fu">mean</span>(other <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span> hispanic <span class="sc">==</span> <span class="st">"yes"</span>),</span>
+<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a>    <span class="do">##</span></span>
+<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb78-15"><a href="#cb78-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">only_hispanic =</span> hispanic_prop <span class="sc">-</span> <span class="fu">sum</span>(hispanic_other, afam_hispanic),</span>
+<span id="cb78-16"><a href="#cb78-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb78-17"><a href="#cb78-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">only_afam =</span> afam_prop <span class="sc">-</span> <span class="fu">sum</span>(afam_hispanic, afam_other),</span>
+<span id="cb78-18"><a href="#cb78-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb78-19"><a href="#cb78-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">only_other =</span> other_prop <span class="sc">-</span> <span class="fu">sum</span>(afam_other, hispanic_other),</span>
+<span id="cb78-20"><a href="#cb78-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb78-21"><a href="#cb78-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">majority_prop =</span> <span class="fu">mean</span>(afam <span class="sc">==</span> <span class="st">"no"</span><span class="sc">&amp;</span> hispanic <span class="sc">==</span> <span class="st">"no"</span><span class="sc">&amp;</span> other <span class="sc">==</span> <span class="st">"no"</span>),</span>
+<span id="cb78-22"><a href="#cb78-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">minority_prop =</span> <span class="fu">sum</span>(only_hispanic, only_afam, only_other, afam_hispanic, afam_other, hispanic_other))  </span>
+<span id="cb78-23"><a href="#cb78-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-24"><a href="#cb78-24" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(fertility_modifiedB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2
+Columns: 12
+$ morekids       &lt;fct&gt; no, yes
+$ afam_prop      &lt;dbl&gt; 0.04520673, 0.06216980
+$ hispanic_prop  &lt;dbl&gt; 0.05824701, 0.10018367
+$ other_prop     &lt;dbl&gt; 0.04884558, 0.06854672
+$ afam_hispanic  &lt;dbl&gt; 0.0006593044, 0.0009493148
+$ afam_other     &lt;dbl&gt; 0, 0
+$ hispanic_other &lt;dbl&gt; 0.02232760, 0.04191431
+$ only_hispanic  &lt;dbl&gt; 0.03526011, 0.05732004
+$ only_afam      &lt;dbl&gt; 0.04454743, 0.06122049
+$ only_other     &lt;dbl&gt; 0.02651799, 0.02663241
+$ majority_prop  &lt;dbl&gt; 0.8706876, 0.8119634
+$ minority_prop  &lt;dbl&gt; 0.1293124, 0.1880366</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Attempting to make my own data set with simply the propotions calculated after summary</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>fertilitytwo <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"../../Data/fertilitytwo.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+• `` -&gt; `...1`
+• `` -&gt; `...3`
+• `` -&gt; `...4`
+• `` -&gt; `...5`
+• `` -&gt; `...6`
+• `` -&gt; `...7`
+• `` -&gt; `...8`
+• `` -&gt; `...9`
+• `` -&gt; `...10`
+• `` -&gt; `...11`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>fertilitytwo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 11
+  ...1     ethnicity       ...3  ...4  ...5  ...6  ...7  ...8  ...9  ...10 ...11
+  &lt;chr&gt;    &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1 morekids afam_prop       hisp… othe… afam… afam… hisp… only… only… only… majo…
+2 no       4.520673000000… 5.82… 4.88… 6.59… 0     2.23… 3.52… 4.45… 2.65… 0.12…
+3 yes      6.216979999999… 0.10… 6.85… 9.49… 0     4.19… 5.73… 6.12… 2.66… 0.18…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Quickly realising that won't work ;-;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>.</p>
+<blockquote class="blockquote">
+<p>Identifying the proportion of the minority, where the majority is defined by those who do not identify as Hispanic, African American or Other.</p>
+</blockquote>
+<p>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="do">## majority vs minority</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>fertility_modifiedB <span class="sc">%&gt;%</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>    morekids, majority_prop, minority_prop</span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(majority_prop, minority_prop),</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">cols_vary =</span> <span class="st">"fastest"</span>,</span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"ethnicity"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">ethnicity =</span> <span class="fu">factor</span>(ethnicity,</span>
+<span id="cb85-11"><a href="#cb85-11" aria-hidden="true" tabindex="-1"></a>                              <span class="at">levels =</span> <span class="fu">c</span>( <span class="st">"majority_prop"</span>, <span class="st">"minority_prop"</span>))</span>
+<span id="cb85-12"><a href="#cb85-12" aria-hidden="true" tabindex="-1"></a>               ) <span class="sc">%&gt;%</span> </span>
+<span id="cb85-13"><a href="#cb85-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_col</span>(value <span class="sc">~</span> morekids,</span>
+<span id="cb85-14"><a href="#cb85-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="sc">~</span>ethnicity,</span>
+<span id="cb85-15"><a href="#cb85-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb85-16"><a href="#cb85-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(</span>
+<span id="cb85-17"><a href="#cb85-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Plot 5.B: Ethnicity: majority and minority vs morekids"</span>,</span>
+<span id="cb85-18"><a href="#cb85-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"position = fill"</span></span>
+<span id="cb85-19"><a href="#cb85-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-50-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="do">## trying pivot longer </span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>fertility_modifiedB <span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="sc">-</span>afam_prop, <span class="sc">-</span>hispanic_prop,<span class="sc">-</span>other_prop, <span class="sc">-</span>majority_prop)<span class="sc">%&gt;%</span></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(only_hispanic, only_afam, only_other, afam_hispanic, hispanic_other),</span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">cols_vary =</span> <span class="st">"fastest"</span>,</span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"ethnicity"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ethnicity =</span> <span class="fu">factor</span>(ethnicity,</span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">levels =</span> <span class="fu">c</span>( <span class="st">"only_afam"</span>, <span class="st">"afam_hispanic"</span>, <span class="st">"only_hispanic"</span>, <span class="st">"hispanic_other"</span>, <span class="st">"only_other"</span>, <span class="at">ordered =</span> <span class="cn">TRUE</span> ))</span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a>               ) <span class="sc">%&gt;%</span> </span>
+<span id="cb86-10"><a href="#cb86-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_col</span>(value <span class="sc">~</span> morekids,</span>
+<span id="cb86-11"><a href="#cb86-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="sc">~</span>ethnicity,</span>
+<span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb86-13"><a href="#cb86-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(</span>
+<span id="cb86-14"><a href="#cb86-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Plot 5.C: minority ethnicity vs morekids"</span>,</span>
+<span id="cb86-15"><a href="#cb86-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"position = dodge"</span></span>
+<span id="cb86-16"><a href="#cb86-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-51-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="do">## PROPORTION</span></span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>fertility_modifiedB <span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="sc">-</span>afam_prop, <span class="sc">-</span>hispanic_prop,<span class="sc">-</span>other_prop, <span class="sc">-</span>majority_prop)<span class="sc">%&gt;%</span></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(only_hispanic, only_afam, only_other, afam_hispanic, hispanic_other),</span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">cols_vary =</span> <span class="st">"fastest"</span>,</span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"ethnicity"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ethnicity =</span> <span class="fu">factor</span>(ethnicity,</span>
+<span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">levels =</span> <span class="fu">c</span>( <span class="st">"only_afam"</span>, <span class="st">"afam_hispanic"</span>, <span class="st">"only_hispanic"</span>, <span class="st">"hispanic_other"</span>, <span class="st">"only_other"</span>, <span class="at">ordered =</span> <span class="cn">TRUE</span> ))</span>
+<span id="cb87-8"><a href="#cb87-8" aria-hidden="true" tabindex="-1"></a>               ) <span class="sc">%&gt;%</span></span>
+<span id="cb87-9"><a href="#cb87-9" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb87-10"><a href="#cb87-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_col</span>(value <span class="sc">~</span> morekids,</span>
+<span id="cb87-11"><a href="#cb87-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="sc">~</span>ethnicity,</span>
+<span id="cb87-12"><a href="#cb87-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">position =</span> <span class="st">"fill"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb87-13"><a href="#cb87-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(</span>
+<span id="cb87-14"><a href="#cb87-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Plot 5.D: minority ethnicity vs morekids"</span>,</span>
+<span id="cb87-15"><a href="#cb87-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"position = fill"</span></span>
+<span id="cb87-16"><a href="#cb87-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-52-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>.</p>
+<blockquote class="blockquote">
+<ul>
+<li><p><strong>Understandings from graphs:</strong></p>
+<ul>
+<li><p>Plot 5.B: Minority ethnicities have a higher proportion of those who want more kids.</p></li>
+<li><p>Plot 5.C: There is no strong pattern to be concerned with in this plot, as some categories bleed into one another.</p></li>
+<li><p>Plot 5.D: Those who identify as Hispanic make up for most of those in the minority ethnicity category who want to have more kids, even if by a small margin. The ‘African American Only’ and ‘Other Only’ categories are ever so slightly smaller than their proportion in the ‘no’ more kids category.</p></li>
+</ul></li>
+</ul>
+</blockquote>
 <p>.</p>
 <p>.</p>
 </section>

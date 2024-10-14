@@ -1,0 +1,107 @@
+---
+title: "Day 1: Hello Universe"
+author: "Vasantha M"
+---
+
+## Introduction
+
+hello universe, hello world :D
+
+> -   Creating Posts:
+>
+>     -   Navigate to "Data-As-Material-Class-Folder\>posts" and create a new folder
+>
+>     -   lets name the folder "Day X"
+>
+>     -   Then proceed to "File\>New File\>Quarto Document"
+>
+>     -   Title and Author your document
+>
+>     -   Save the new document IN "DAY X" as index.qmd EACH TIME.
+>
+>         -   There can be only 1 index file in each folder!
+
+## My First Piece(s) of R Code
+
+```{r}
+#| label: setup
+library(tidyverse)
+library (ggformula)
+library(babynames)
+```
+
+### Lets look at every baby name from the US starting all the way from...
+
+### .....1880?!?!?
+
+```{r}
+babynames
+```
+
+### How many "Aditi"s have existed?
+
+```{r}
+babynames %>% filter(name =="Aditi") %>% 
+  gf_line(n~year)
+
+```
+
+### What about "Adhithi"?
+
+```{r}
+babynames %>% filter(name == "Adhithi") %>% 
+  gf_line(n~year)
+```
+
+### "Adithi"?
+
+```{r}
+babynames %>% filter(name == "Adithi") %>% 
+  gf_line(n~year)
+```
+
+### or "Adhiti"?
+
+```{r}
+babynames %>% filter(name == "Adhiti") %>% 
+  gf_line(n~year)
+```
+
+### In compiling them all into a single graph....
+
+```{r}
+babynames %>% filter(name == "Aditi"|name == "Adhithi"|name == "Adithi"|name == "Adhiti") %>% 
+  gf_line(n~year)
+```
+
+### WOAHH!!
+
+### Although, my own name has some dissapointing results :(
+
+```{r}
+babynames %>% filter(name == "Vasantha") %>% 
+  gf_line(n~year)
+```
+
+### My mother's name seems to be faring better than mine, across the world..
+
+```{r}
+babynames %>% filter(name == "Meena") %>% 
+  gf_line(n~year)
+```
+
+### As are her counterparts!!
+
+```{r}
+babynames %>% filter(name == "Mina") %>% 
+  gf_line(n~year)
+```
+
+### And together...
+
+```{r}
+babynames %>% filter(name == "Meena"|name == "Mina") %>% 
+  gf_line(n~year)
+```
+
+### :)
