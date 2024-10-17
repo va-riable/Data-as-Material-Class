@@ -1,0 +1,33 @@
+year;occupation;major_category;minor_category;total_workers;workers_male;workers_female;percent_female;total_earnings;total_earnings_male;total_earnings_female;wage_percent_of_male
+2016;Dietitians and nutritionists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;70729;8095;62634;88,5549067567759;49841;47439;49886;105,1582031661713
+2016;Medical records and health information technicians;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;148302;14938;133364;89,9273104880582;38273;37208;38404;103,2143625026876
+2016;Pharmacists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;214665;97539;117126;54,5622248619943;120878;122351;118461;96,8206226348783
+2016;Licensed practical and licensed vocational nurses;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;602316;77484;524832;87,1356563664256;38946;40939;38523;94,0985368475048
+2016;Miscellaneous therapists, including exercise physiologists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;107797;25250;82547;76,5763425698303;50208;52202;48955;93,7799318033792
+2016;Clinical laboratory technologists and technicians;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;245278;68887;176391;71,9147253320722;48170;51112;46984;91,9236187196744
+2016;Registered nurses;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;2317493;281048;2036445;87,8727573287169;65331;70952;64413;90,7839102491825
+2016;Nurse practitioners;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;116166;14128;102038;87,8380937623745;100639;111130;100030;90,0116980113381
+2016;Physician assistants;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;76018;27869;48149;63,3389460390960;101940;111673;100434;89,9357946862715
+2016;Health practitioner support technologists and technicians;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;440607;98824;341783;77,5709419051445;32466;36093;32093;88,9175186324218
+2016;Physical therapists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;162536;60163;102373;62,9848156716051;77605;85149;74555;87,5582801911943
+2016;Diagnostic related technologists and technicians;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;263276;88369;174907;66,4348440419940;58828;64560;55958;86,6759603469641
+2016;Occupational therapists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;72099;9813;62286;86,3895477052386;70679;80834;70044;86,6516564811837
+2016;Emergency medical technicians and paramedics;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;167315;114281;53034;31,6970982876610;42373;46301;39941;86,2637955983672
+2016;Respiratory therapists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;92125;37338;54787;59,4702849389417;56532;61280;52583;85,8077676240209
+2016;Nurse anesthetists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;26253;10941;15312;58,3247628842418;160522;176957;151667;85,7083924343202
+2016;Other healthcare practitioners and technical;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;105941;59387;46554;43,9433269461304;57179;61968;52594;84,8728375935967
+2016;Optometrists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;27134;18087;9047;33,3419326306479;117397;125489;101000;80,4851421240109
+2016;Veterinarians;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;65797;26912;38885;59,0984391385626;90063;103622;82228;79,3538051765069
+2016;Dentists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;93294;65998;27296;29,2580444615945;150132;158810;115473;72,7114161576727
+2016;Physicians and surgeons;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;743383;489748;253635;34,1190207470443;201542;231420;166388;71,8987122979863
+2016;Miscellaneous health technologists and technicians;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;97277;36999;60278;61,9653155422145;41207;51118;36438;71,2821315387926
+2016;Opticians, dispensing;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;48366;14044;34322;70,9630732332630;37389;50622;35058;69,2544743392201
+2016;Chiropractors;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;40960;31857;9103;22,2241210937500;80466;86586;57522;66,4333726006514
+2016;Podiatrists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;6093;5140;953;15,6408993927458;126617;140350;101644;NA
+2016;Audiologists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;11195;2186;9009;80,4734256364448;72760;74127;72123;NA
+2016;Radiation therapists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;10165;3289;6876;67,6438760452533;88073;95008;79488;NA
+2016;Recreational therapists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;10160;3072;7088;69,7637795275591;40040;41037;38967;NA
+2016;Speech-language pathologists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;87443;4661;82782;94,6696705282298;63532;75360;62734;NA
+2016;Nurse midwives;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;4001;0;4001;100,0000000000000;101552;NA;101552;NA
+2016;Health diagnosing and treating practitioners, all other;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;13264;5463;7801;58,8133293124246;55718;65898;51087;NA
+2016;Dental hygienists;Healthcare Practitioners and Technical;Healthcare Practitioners and Technical;71498;4845;66653;93,2235866737531;56632;70807;55946;NA

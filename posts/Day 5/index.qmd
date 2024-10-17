@@ -12,6 +12,14 @@ Today in class we discuss groups and box-plots.
 > ### Overview:
 >
 > -   install new package 'palmerpenguins'
+> -   in functions under groups:
+>     -   gf_boxplot()
+>     -   log10(\*axis\*)
+>     -   gf_refine()
+>         -   scale_x_log10()
+>         -   scale_fill_brewer()
+>     -   reorder()
+>     -   vars()
 
 ### Setup Chunk
 

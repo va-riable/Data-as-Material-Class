@@ -1,0 +1,33 @@
+---
+title: "Day 5: Change"
+author: "Vasantha M"
+---
+
+## Introduction:
+
+> ### Overview
+>
+> -   in functions under change:
+>     -   select(where())
+>     -   gf_point()
+>     -   gf_lm()
+>     -   GGgalley::ggpairs ()
+>         -   coloums =
+>         -   switch =
+>         -   progress =
+>         -   diag =
+>         -   lower =
+>         -   list()
+>         -   wrap()
+>     -   mosaic::cor_test()
+>     -   broom::tidy()
+>     -   knitr::kable
+>         -   digits
+>         -   caption
+>     -   correlation::correlation()
+>     -   gf_errorbar()
+>     -   gf_hline()
+>     -   gf_smooth()
+>     -   ggExtra::ggMarginal
+
+### Setup Chunk:

@@ -1,0 +1,398 @@
+---
+title: "A2: Case Study 2"
+author: "Vasantha M"
+---
+
+# Coffee Ratings
+
+[Check out the Assignment here!](https://av-quarto.netlify.app/content/courses/analytics/casestudies/modules/300-coffee/)
+
+## 1. Introduction
+
+The data set observed in this case study goes over 1339 coffee harvests, discussing their country of origin, region, owners, companies, variety, colour, and such, along with parameters such as their total cup score, aroma, sweetness, flavour, acidity, aftertaste etc. Totally, this data set has 43 columns.
+
+.
+
+Like Hansel and Gretel, I follow the breadcrumbs till the end :P
+
+.
+
+> ### 1.1 Overview
+>
+> TBA
+
+### 1.2 Setup Chunk
+
+```{r}
+#| label: setup 
+library(tidyverse)
+library(mosaic)
+library(skimr)
+library(ggformula)
+library(ggbump)
+library(ggplot2)
+library(DT)
+library(kableExtra)
+```
+
+.
+
+.
+
+## 2. Examining Data
+
+```{r}
+coffee <- read_delim( file = "../../Data/coffee-ratings.csv", delim = ";") %>% glimpse()
+```
+
+.
+
+```{r}
+coffee %>% inspect()
+```
+
+```{r}
+coffee %>% skim()
+```
+
+.
+
+#### Following the first Breadcrumb:
+
+Which variables to choose as category to label by?
+
+```{r}
+## looking at just country_of_origin
+coffee %>% 
+  count(country_of_origin) %>% 
+  arrange(desc(n))
+##
+## This works as a good categorical variable to sort by, as it has a workable amount of levels and few missing entries.
+```
+
+.
+
+```{r}
+## looking at just variety
+coffee %>% 
+  count(variety) %>% 
+  arrange(desc(n))
+##
+## though this could be a describing factor, it has too many missing rows.
+```
+
+.
+
+```{r}
+## looking at just moisture
+coffee %>% 
+  count(moisture) %>% 
+  arrange(desc(n))
+##
+##Though this technically works as a categorical variable, its somewhat too specific to work with. It's not as relatable as, lets say, country_of_origin.
+```
+
+.
+
+```{r}
+## looking at harvest_year only
+coffee %>% 
+  count(harvest_year) %>% 
+  arrange(desc(n))
+##
+## this would also technically work, but does it make sense? it's more of a reference. Perhaps more relavent in a universe with  time travel :p
+```
+
+.
+
+```{r}
+## looking at processing_methods only
+coffee %>% 
+  count(processing_method) %>% 
+  arrange(desc(n))
+##
+## this variable works well in terms of categorization for a ranking purpose. The potential questions that can stem from this variable also make sense, i.e, How does processing method rank in terms of so-and-so flovour attributes?
+```
+
+.
+
+Looking at quant variables... Any Insights?
+
+```{r}
+favstats(~total_cup_points, data = coffee)
+```
+
+.
+
+.
+
+### 2.1 Data Dictionary
+
+There are `43` coloumns and `1339` rows in this data set. As not all of them are relevant for the chart that is to be made, only the relevant variables (and some others) are discussed below.
+
+.
+
+#### 2.1.a Qualitative Variables
+
+-   `species` : describes the species of harvest, either Arabica, which makes up most of this data set or Robusta, which makes up only 2%.
+
+-   `country_of_origin` : describes the country in which the coffee was harvested, totally 36 in this data set, of which 60% is covered by just 5.
+
+-   `harvest_year` : the year in which the batch of coffee was harvested.
+
+-   `variety` : 29 kinds, variety describes the subcategory under species of the coffee batch.
+
+-   `processing_method` : 5 different ways by which coffee is processed
+
+-   `moisture` : A scale for measuring the moisture content of the coffee, as it plays an important role when it comes to roasting, etc.
+
+-   `color` : There are 4 kids of colours that describe the coffee in this data set, of which Green does so for the majority.
+
+.
+
+#### 2.1.b Quantitative Variables
+
+-   `total_cup_points` :  a numerical rating that indicates the overall quality of the coffee.
+
+-   `aroma` : A key factor in how consumers perceive coffee, describes a s a scale.
+
+-   `flavor` : A scale to assess the flavour of the coffee as a factor of quality.
+
+-   `aftertaste` : assesses the lenght of flavour left in the mouth after swallowing the coffee.
+
+-   `acidity` : assesses the pH value of the coffee.
+
+-   `body` : describes and rates the mouthfeel or heaviness of a coffee on a scale.
+
+-   `sweetness` : describes the....drumroll please... sweetness (!?) of the coffee, and is affected by how the coffee is produced.
+
+.
+
+.
+
+### 2.2 Munging Data
+
+.
+
+```{r}
+coffee_mod <- coffee %>%
+  ##drop_na() %>% 
+  mutate (
+    country_of_origin = as_factor(country_of_origin),
+    total_cup_points = total_cup_points/100,
+    aroma = aroma/100,
+    flavor = flavor/100,
+    aftertaste = aftertaste/100,
+    acidity = acidity/100,
+    body = body/100
+  )
+coffee_mod
+```
+
+.
+
+```{r}
+## viewing the dataset:
+datatable(coffee_mod, options = list(pageLength = 10))
+```
+
+.
+
+.
+
+### 2.3 Observations
+
+-   This is an extensive data set that covers a lot of detail, both in terms of qualitative and quantitative information.
+
+<!-- -->
+
+-   some coloumns, such as ico_number, have as much as 847 rows missing.
+
+-   many variables fall under broader categories, like rating, production, description etc. As a result, a lot of them seem to describe similar factors.
+
+-   How does one assess subjective aspects such as flavor and assign it a numerical value?
+
+-   19% of the rows in country_of_origin is Mexico
+
+-   A good visualization for variables in this data set would be geometric charts for ratings and rankings!
+
+.
+
+## 3. Plotting Data
+
+.
+
+### Q: The second Breadcrumb:
+
+*Among the `country_of_origin` with the 5 highest average `total_cup_points`, how do the average ratings vary in ranks on the other coffee parameters?*
+
+-   **Why this somewhat long-winded question? Why all this `average`stuff?**
+
+    Since this data set has many variables in both qualitative and quantitative categories, the research question ends up being long-winded. The question must be specific enough for the resulting plots to be meaningful.
+
+    .
+
+    The average or mean becomes important when looking at multiple distributions - it helps provide a general idea. The countries by highest `total_cup_points` are not those with the highest mean of `total_cup_points`.
+
+-   **Why `country_of_origin`? Are there any other options?**
+
+    As discussed earlier while following the first breadcrumb, there are other options that would work technically - but the output produced would not be consequential in the grand scheme of things.
+
+.
+
+```{r}
+## Grouping and summarizing by only the variables relavent to the research question
+##
+coffee_modA <- coffee_mod %>% 
+  group_by(country_of_origin) %>% 
+  summarize( total_cup_points, aroma, flavor, aftertaste, acidity, body)
+##
+coffee_modA
+```
+
+.
+
+### Breadcrumb 3
+
+```{r}
+## Arriving at the mean of each parameter, to get an overview by country_of_origin arranged in descending order of highest total_cup_points
+##
+coffee_modB <- coffee_mod %>%
+  group_by(country_of_origin) %>% 
+  summarize(total_points_mean = mean(total_cup_points), 
+             aroma_mean = mean(aroma), 
+             flavor_mean = mean(flavor), 
+             aftertaste_mean = mean(aftertaste), 
+             acidity_mean = mean(acidity), 
+             body_mean = mean(body)
+             ) %>% 
+  arrange(desc(total_points_mean)) %>% head(5)
+##
+coffee_modB
+  
+
+```
+
+.
+
+### Breadcrumb 4
+
+```{r}
+## Converting the means into ranks - assigning each parameter a value from 1-5
+##
+coffee_modC <- coffee_modB %>% 
+  mutate(
+    total_points_rank = rank(total_points_mean),
+    aroma_rank = rank(aroma_mean),
+    flavor_rank = rank(flavor_mean),
+    aftertaste_rank = rank(aftertaste_mean),
+    acidity_rank = rank(acidity_mean),
+    body_rank = rank(body_mean)
+  ) %>% 
+  select(-total_points_mean, -aroma_mean, -flavor_mean, -aftertaste_mean, -acidity_mean, -body_mean)
+##
+coffee_modC
+```
+
+.
+
+### Breadcrumb 5
+
+```{r}
+## putting all the parameter ranks under the coloumn of 'parameter'
+##
+coffee_modD <- coffee_modC %>% 
+  pivot_longer( 
+    cols = c(total_points_rank, aroma_rank, flavor_rank, aftertaste_rank, acidity_rank, body_rank),
+    cols_vary = "fastest",
+    names_to = "parameter",
+    values_to = "ranks")
+##
+coffee_modD
+```
+
+.
+
+```{r}
+## plotting the bump chart
+##
+ggplot(coffee_modD, aes(x = parameter, y = ranks, color = country_of_origin, group = country_of_origin)) +
+  geom_bump(size = 1) +  
+  geom_point(size = 4) +  
+  scale_x_discrete(
+    limits = c(  "acidity_rank", "aftertaste_rank","aroma_rank","body_rank","total_points_rank", "flavor_rank"),
+    labels = c( "Acidity", "Aftertaste","Aroma","Body","Total", "Flavor" )
+    ) + 
+  labs(title = "Coffee Parameter Ranks by Country of Origin",
+       x = "Coffee Parameters",
+       y = "Rank",
+       color = "Country of Origin") +
+  theme_minimal() +  # Use a minimal theme
+  theme(axis.text.x = element_text(angle = 0, hjust = 0.1)) 
+```
+
+.
+
+.
+
+## 4. Task and Discussion
+
+.
+
+### From the Course Website
+
+.
+
+-   ***Identify the type of charts***
+
+    Bump Charts!
+
+    .
+
+-   ***Identify the variables used for various geometrical aspects (x, y, fill…). Name the variables appropriately.***
+
+    -   `x  = parameter` would be the coffee parameters, which include the levels of aroma, acidity, aftertaste, flavor, body and total_points
+
+    -   `y = ranks` would be the ranks assigned to each country of origin based on their mean from each parameter. 5 would be highest and 1 would be lowest, in the case of the plot shown here.
+
+    -   `fill/colour/group = country_of_origin` would be the variable that is being ranked. It describes where the coffee originates from.
+
+    .
+
+-   ***What research activity might have been carried out to obtain the data graphed here? Provide some details.***
+
+    In terms of a research activity, it could have possibly been some sort of survey or inspection on coffee beans from coffee estates around the world. Not only does this data set describe how the coffee was sourced and its characteristics during harvest, but also how the coffee is perceived from a consumer's point of view. This would mean that the survey spanned right from production to consumption. Perhaps to gain insight as to which methods of production and processing work best in different regions, to make the most out of every region? It could have also been a study on how environmental factors affect the end product coffee beans.
+
+    .
+
+-   ***What might have been the Hypothesis/Research Question to which the response was Chart?***
+
+    The research question/hypothesis that would have prompted this chart would be something along the lines of trying to figure out how the top five countries by average total cup points rank in terms of parameters such as flavor, acidity, aroma, aftertaste and so on. See Breadcrumb 2.
+
+    .
+
+-   ***Write a 2-line story based on the chart, describing your inference/surprise.***
+
+    One of the first things we did was count the frequency of country_of_origin, and the top 5 made up for 60% of this data set, with 807 entries. This significantly increases their chances of being in the top 5 by total_cup_points - and so, the means were calculated instead.
+
+    Would you look at that! not a single appearance in the top 5, most surprisingly Brazil: the largest coffee producer in the world.
+
+.
+
+.
+
+### My Journey with this Case Study
+
+TBA
+
+.
+
+.
+
+`coffee_modC <- coffee_modB %>% mutate(across(ends_with("_mean"), rank)) %>% rename_with(~ gsub("mean", "rank", .x), ends_with("mean")) ## coffee_modC`
+
+.
+
+.
+
+`coffee_modD %>% ggplot(aes(x = parameter, y = ranks, color = country_of_origin)) + geom_bump(size = 2) + geom_point( size = 6 ) + xlab("Coffee Parameters") + ylab("Ranks") + scale_color_brewer(palette = "RdBu") + # Change Colour Scale scale_x_discrete(limits = c("aroma_rank","flavor_rank", "aftertaste_rank" ,"acidity_rank","body_rank")) # Check warning here...`

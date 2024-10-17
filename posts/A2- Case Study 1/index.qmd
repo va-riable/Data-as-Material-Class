@@ -1,0 +1,336 @@
+---
+title: "A2: Case Study 1"
+author: "Vasantha M"
+---
+
+# Movie Profits
+
+[Check out the Assignment here!](https://av-quarto.netlify.app/content/courses/analytics/casestudies/modules/20-movieprofits/)
+
+.
+
+## 1. Introduction
+
+The data set observed in this case study goes over 3310 films, discussing their domestic and worldwide gross, production budget, genre, distributor and year of release, etc.
+
+.
+
+> ### 1.1. Overview
+>
+> TBA
+
+### 1.2 Setup Chunk:
+
+```{r}
+library(tidyverse)
+library(mosaic)
+library(skimr)
+library(ggformula)
+library(kableExtra)
+library(DT)
+```
+
+.
+
+.
+
+## 2. Examining Data
+
+```{r}
+mp <- read_delim(file = "../../Data/movie_profit.csv", delim = ";")
+mp %>% glimpse()
+```
+
+```{r}
+mp%>%inspect()
+```
+
+```{r}
+mp %>% skim()
+```
+
+.
+
+### 2. 1. Data Dictionary
+
+There are `3310` rows and `10` columns in this data set.
+
+.
+
+#### 2.1.a. Qualitative Variables
+
+-   `release_date` : When the movie was released. This data set contains movies released from 1936 through 2017.
+
+-   `movie` : Tile of the film. This data set contains 3310 films.
+
+-   `distributor` : Name of the company that distributed the film - there are six categories under this variable: Universal, Paramount Pictures, Warner Bros, and 20th Century Fox, Sony Pictures and Other. There are 42 missing entries.
+
+-   `mpaa_rating` : The age-rating of each movie. There are four categories under this variable - R, PG-13, PG and G. This coloumn also has 130 missing entries.
+
+-   `genre` : Describes the genre of the film, categorized into - Action, Adventure, Comedy, Drama, and Horror.
+
+-   `decade` : Describes the decade in which the movie was released, i.e 1990, 2000, 2010 and so on. Though it is considered a quant type variable in the data set, it is technically qual variable.
+
+.
+
+#### 2.1.b Quantitative Variables
+
+-   `production_budget` : The budget for the film in USD.
+
+-   `domestic_gross` : The amount of money, in USD, that the film made across the US.
+
+-   `worldwide_gross` : The amount of money, in USD, the film made across the world.
+
+-   `profit_ratio` : This variable would technically be the (`worldwide_gross` - `production_budget`)/(`production_budget`), but the values in this section are 17 or so digits in nature. Could this be a misplaced decimal error?
+
+    A simple calculation using the above formula on any film, suggests that the every value under profit_ratio must be multiplied by 10\^(-14).
+
+.
+
+### 2.2. Munging Data
+
+```{r}
+mp_mod <- mp %>%
+  mutate(
+    decade = as_factor(decade),
+    movie = as_factor(movie),
+    distributor = as_factor(distributor),
+    distributor = replace(distributor, distributor == "", NA),
+   
+    mpaa_rating = as_factor(mpaa_rating),
+    mpaa_rating = replace(mpaa_rating, mpaa_rating == "", NA),
+    genre = as_factor(genre),
+    
+    profit_ratio = profit_ratio * 0.00000000000001
+  )
+glimpse(mp_mod)
+```
+
+.
+
+```{r}
+## viewing the dataset:
+datatable(mp_mod, options = list(pageLength = 10))
+```
+
+.
+
+### 2.3 Observations
+
+.
+
+#### Playing around with arrangement of certain coloumns
+
+.
+
+```{r}
+## top 5 production budget:
+mp_mod %>% arrange(desc(production_budget)) %>%
+  head(5) %>%
+  kbl(
+   
+    col.names = c(
+      "Release\n Date", "Movie\n Name", "Production\n Budget", "Domestic\n Gross", "Worldwide\n Gross", "Distributor", "Rating", "Genre", "Profit\n Ratio", "Decade"
+    ),
+    caption = "Production Budget - Top 5"
+  )%>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "hover",
+      "condensed", "responsive"
+    ),
+    full_width = F, position = "center"
+  )
+```
+
+.
+
+```{r}
+## top 5 domestic gross:
+mp_mod %>% arrange(desc(domestic_gross)) %>%
+  head(5) %>%
+  kbl(
+   
+    col.names = c(
+      "Release\n Date", "Movie\n Name", "Production\n Budget", "Domestic\n Gross", "Worldwide\n Gross", "Distributor", "Rating", "Genre", "Profit\n Ratio", "Decade"
+    ),
+    caption = "Domestic Gross - Top 5"
+  )%>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "hover",
+      "condensed", "responsive"
+    ),
+    full_width = F, position = "center"
+  )
+```
+
+.
+
+```{r}
+## top 5 worldwide gross:
+mp_mod %>% arrange(desc(worldwide_gross)) %>%
+  head(5) %>%
+  kbl(
+   
+    col.names = c(
+      "Release\n Date", "Movie\n Name", "Production\n Budget", "Domestic\n Gross", "Worldwide\n Gross", "Distributor", "Rating", "Genre", "Profit\n Ratio", "Decade"
+    ),
+    caption = "Worldwide Gross - Top 5"
+  )%>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "hover",
+      "condensed", "responsive"
+    ),
+    full_width = F, position = "center"
+  )
+```
+
+.
+
+```{r}
+## top 5 profit ratio:
+mp_mod %>% arrange(desc(profit_ratio)) %>%
+  head(5) %>%
+  kbl(
+   
+    col.names = c(
+      "Release\n Date", "Movie\n Name", "Production\n Budget", "Domestic\n Gross", "Worldwide\n Gross", "Distributor", "Rating", "Genre", "Profit\n Ratio", "Decade"
+    ),
+    caption = "Profit Ratio - Top 5"
+  )%>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "hover",
+      "condensed", "responsive"
+    ),
+    full_width = F, position = "center"
+  )
+```
+
+.
+
+> -   Its very interesting to note that the top 5 most expensive movies to make, The top 5 movies that made the most money worldwide and the top 5 movies that made the most in profits have not a single entry in common.
+>
+> -   Adventure and action films seem to make more money, as well as tend to cost more to make.
+>
+> -   horror and drama films seem to have the best profit turnout.
+
+.
+
+.
+
+## 3. Plotting Data
+
+### Q: Distributor vs Profit Ratio by Genre - How do profit ratios vary in terms of genre and distributor?
+
+```{r}
+mp_mod %>%
+  group_by(distributor, genre) %>%
+  summarise(median_profit_ratio = median(profit_ratio)) %>% 
+  
+  gf_col( genre  ~ median_profit_ratio ) %>% 
+  gf_facet_wrap(~distributor)%>%
+  gf_labs(
+    title = "Profits made by Film Distributors",
+    subtitle = "Ratio of Profits to Budgets",
+    caption = "October 2024 "
+  )
+```
+
+.
+
+.
+
+### Other Plots:
+
+```{r}
+## genre alone by profit ratio
+mp_mod %>%
+  gf_col(genre ~ profit_ratio)
+```
+
+.
+
+```{r}
+## genre alone by median_profit ratio
+mp_mod %>%
+  group_by(genre) %>%
+  summarise(median_profit_ratio = median(profit_ratio)) %>% 
+  gf_col(genre ~ median_profit_ratio)
+```
+
+.
+
+```{r}
+## distributor alone by profit ratio
+mp_mod %>%
+ gf_col(distributor ~ profit_ratio)
+```
+
+.
+
+```{r}
+## distributor alone by median_profit ratio
+mp_mod %>%
+  group_by(distributor) %>%
+  summarise(median_profit_ratio = median(profit_ratio)) %>% 
+  gf_col(distributor ~ median_profit_ratio)
+```
+
+.
+
+> -   Why use median?
+>
+>     .
+>
+>     Because, of its effectiveness in representing the central tendency of skewed or non-normally distributed data.
+
+.
+
+.
+
+## 4. Task and Discussion
+
+.
+
+### From the Course Website
+
+.
+
+-   ***Identify the type of plot***
+
+    The above is a bar graph.
+
+-   ***What are the variables used to plot this graph?***
+
+    `distributor`, `genre`, `profit_ratio`
+
+-   ***If you were to invest in movie production ventures, which are the two best genres that you might decide to invest in?***
+
+    ```{r}
+    ## genre alone by median_profit ratio
+    mp_mod %>%
+      group_by(genre) %>%
+      summarise(median_profit_ratio = median(profit_ratio)) %>% 
+      gf_col(genre ~ median_profit_ratio)
+    ```
+
+    Horror and Drama
+
+-   ***Which R command might have been used to obtain the separate plots for each distributor?***
+
+    `ggformula::gf_facet_wrap`
+
+-   ***If the original dataset had BUDGETS and PROFITS in separate columns, what preprocessing might have been done to achieve this plot?***
+
+    `mp_mod <- mp %>% mutate( ...., profit_ratio = PROFITS/BUDGETS)`
+
+.
+
+.
+
+### My Journey with this Case Study:
+
+TBA

@@ -1,0 +1,245 @@
+---
+title: "A2 - Case Study 3"
+---
+
+# Gender at The Workplace
+
+[Check out the Assignment here!](https://av-quarto.netlify.app/content/courses/analytics/casestudies/modules/30-genderworkplace/)
+
+.
+
+## 1. Introduction
+
+The data set observed in this case study goes over 32 occupations, discussing their number of workers, total earnings, proportion of male and female workers, and their wage percentages.
+
+.
+
+> ### 1.1 Overview
+>
+> TBA
+
+### 1.2 Setup Chunk
+
+```{r}
+library(tidyverse)
+library(mosaic)
+library(skimr)
+library(ggformula)
+library(DT)
+library(scales)
+```
+
+.
+
+.
+
+## 2. Examining Data
+
+```{r}
+jobgender <- read_delim(file = "../../Data/job_gender_data.csv", delim = ";" ) %>% glimpse()
+
+```
+
+.
+
+```{r}
+jobgender %>% inspect()
+```
+
+.
+
+.
+
+### 2.1 Data Dictionary
+
+There are `32` rows and `12` colomns in this data set.
+
+.
+
+#### 2.1.a Qualitative Variables
+
+-   `occupation` : Describes the occupations of the workers. There are 32 occupations in this data set.
+
+-   `major_category` : Describes the broader category in which the occupation falls under. There is only one category and that is Healthcare Practitioner and Technictians
+
+-   `minor_category` : Though it is stated as a different coloumn, it is the same as the above coloumn.
+
+#### 2.1.b Quantitative Variables
+
+-   `total_workers` : Describes the total number of workers in each occupation.
+
+-   `workers_male` : Describes the total number of male workers in each occupation.
+
+-   `workers_female` : Describes the total number of female workers in each occupation.
+
+-   `percent_female` : The percentage of female workers in each occupation.
+
+-   `total_earnings` : the total earnings of each occupation.
+
+-   `total_earnings_male` : the total earnings of male workers in each occupation.
+
+-   `total_earnings_female` : the total earnings of female workers in each occupation.
+
+-   `wage_percentage_of_male` : the percentage of earnings by males in each occupation.
+
+.
+
+.
+
+### 2.2 Munging Data
+
+.
+
+```{r}
+jobgender_mod <- jobgender %>% 
+  mutate(
+    year = as_factor(year),
+    percent_female = percent_female*0.0000000000001
+  ) %>% glimpse()
+
+```
+
+.
+
+```{r}
+datatable(jobgender_mod, options = list(pageLength = 10))
+```
+
+.
+
+.
+
+### 2.3 Observations
+
+-   This data set consists of only those who work in the health sector, in 2016.
+
+<!-- -->
+
+-   Only one occupation has no males and 100% females that make up its workforce: Nurse midwives.
+
+-   Two occupations, Dietitians and Nutritionists, as well as Medical Records and Health Information Technicians both have a `wage_percent_of_male` as more than 100%. How is that possible?
+
+-   The `total_earnings` coloumn is most of the times, of not less than `total_earnings_female` and `total_earnings_male` coloumns, How is that possible? Have I misunderstood the data?
+
+    In fact, upon closer inspection, it seems to lie in the middle of `total_earnings_female` and `total_earnings_male`. Interesting. Perhaps the data has been modified, but labelled incorrectly? A case of `total_earnings = median(total_earnings)` ??
+
+.
+
+.
+
+## 3. Plotting Data
+
+.
+
+```{r}
+## Grouping by occupation, summarizing to obtain median_earnings
+##
+jobgender_mod %>%
+  group_by(occupation) %>% 
+  summarize(median_earnings = median(total_earnings),
+        percent_female, total_workers) %>% 
+  ##
+  ## plotting data after grouping and summarizing
+  ##
+  ggplot(aes(x = percent_female, y = median_earnings, size = total_workers)) +
+  geom_point(alpha = 0.7) + 
+  scale_size(range = c(1, 10)) +
+  labs(title = "Salaries and Gender Proportion in the Workforce",
+       y = "Median salary in the occupation",
+       x = "% of workforce reported as female",
+       size = "Total # of Workers",
+       color = "Category") +
+  scale_x_continuous(labels = function(x) paste(x, "%")) +
+  scale_y_continuous(labels = function(y) paste(y/1000,"K"))+
+  theme_minimal() 
+```
+
+.
+
+.
+
+## 4. Task and Discussion
+
+.
+
+### From the Course Website
+
+.
+
+-   ***What kind of chart is used in the figure?***
+
+    A Scatter Plot!
+
+    .
+
+<!-- -->
+
+-   ***What geometries have been used and to which variables have these geometries been mapped?***
+
+    The circles represent clusters of workers by occupation, and their sizes represent the total number of workers within that occupation. The placement of the circle with regards to the x-axis defines the percentage of female workers within that cluster, and the placement of the circle with regards to the y-axis defines the median salary in that occupation.
+
+    .
+
+-   ***Based on this graph, do you think gender plays a role in salaries? What is the trend you see?***
+
+    Based on this graph, its quite evident that gender plays a role in salaries. As the graph moves towards majority of the workforce as women, the dots cluster at the vottom rungs of the y-axis, indicating lower median incomes.
+
+    .
+
+-   ***If SALARY, NO_OF_WORKERS, GENDER, OCCUPATION were available in the original dataset, what pre-processing would have been necessary to obtain this plot?***
+
+    Steps for pre-processing in that case:
+
+    `df %>%`
+
+    `group_by(occupation) %>%`
+
+    `summarize(workers_female = count(gender == "female"),`
+
+    `percent_female = (workers_female/no_of_workers)*100,`
+
+    `meadian_salary = median(salary)) %>% ggplot(...)... and so on.`
+
+.
+
+.
+
+### My Journey with this Case Study
+
+TBF
+
+.
+
+.
+
+-   I prompted ChatGPT with "scatter plot with different sized dots in r, using tidyverse , ggformula, mosaic, skimr" and it came up with a sample data set and code chunk. After running the code and playing around with factors such as `scale_size(range =c())`, `geom_point(alpha =)`, label inputs, as well as messing around with I had a pretty good idea of how things worked.
+
+    .
+
+```{r}
+
+## ChatGPT:  Sample dataset
+set.seed(42)  # For reproducibility
+data <- tibble(
+  x = rnorm(100),                  # Random normal values for x-axis
+  y = rnorm(100),                  # Random normal values for y-axis
+  size = runif(100, 1, 10),        # Random sizes for the dots
+  category = sample(letters[1:3], 100, replace = TRUE)  # Random categories
+)
+
+```
+
+.
+
+```{r}
+## Chat GPT: Create scatter plot with varying dot sizes
+ggplot(data, aes(x = x, y = y, size = size, color = category)) +
+  geom_point(alpha = 0.7) +  # Adjust alpha for transparency
+  scale_size(range = c(1, 10)) +  # Control the size range
+  labs(title = "Scatter Plot with Varying Dot Sizes",
+       x = "X-axis Label",
+       y = "Y-axis Label",
+       size = "Size Legend",
+       color = "Category") +
+  theme_minimal()  # Use a minimal theme
+```

@@ -2,11 +2,16 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/A2 - Case Study 2/index.html",
+      "/posts/A2 - Case Study 3/index.html",
+      "/posts/A2- Case Study 1/index.html",
       "/posts/Day 1 hello-world/index.html",
       "/posts/Day 2/index.html",
       "/posts/Day 3/index.html",
       "/posts/Day 4/index.html",
-      "/posts/Day 5/index.html"
+      "/posts/Day 5/index.html",
+      "/posts/Day 5.B/index.html",
+      "/posts/Day 6/index.html"
     ]
   }
 ]

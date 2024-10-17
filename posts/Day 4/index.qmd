@@ -5,6 +5,38 @@ author: "Vasantha M"
 
 ## Setting up:
 
+> ### Overview:
+>
+> -   `gf_histogram()`
+>
+>     -   bins
+>
+> -   `gf_facet_wrap()`
+>
+>     -   scales
+>
+>     -   nrow
+>
+> -   `gf_themes()`
+>
+> -   `favestats()`
+>
+> -   `drop_na()`
+>
+> -   `crosstable()`
+>
+> -   `crosstable::as_flextable()`
+>
+> -   `arrange(desc())` or `arrange(asec())`
+>
+> -   f`ilter( df %in% c())`
+>
+> -   `slice_max()`
+>
+>     -   order_by
+>
+> -   `left_join()`
+
 ```{r}
 #| label: setup
 library(tidyverse)
@@ -14,7 +46,13 @@ library(skimr)
 library(crosstable)
 ```
 
+.
+
+.
+
 ## Looking Dataset "diamonds":
+
+.
 
 > ### Notes:
 >
@@ -31,29 +69,48 @@ library(crosstable)
 >
 > -   free_y = changes the scales on each graph on gf_facet_wrap
 
+.
+
 ```{r}
 diamonds
 ```
+
+.
 
 ```{r}
 diamonds %>% glimpse()
 ```
 
+.
+
 ```{r}
 diamonds %>% inspect()
 ```
+
+.
 
 ```{r}
 diamonds %>% skim()
 ```
 
+.
+
+.
+
 ## Munging Data:
 
 There's nothing to be munged!
 
+.
+
+.
+
 ## Q1: Price Distribution
 
+.
+
 ```{r}
+## Plotting the distribution of Diamond Prices
 diamonds %>% 
   gf_histogram(~price) %>%
   gf_labs(
@@ -62,7 +119,10 @@ diamonds %>%
   )
 ```
 
+.
+
 ```{r}
+##What happens when you change the bins?
 diamonds %>% 
   gf_histogram(~price,
                bins =100) %>%
@@ -72,9 +132,16 @@ diamonds %>%
   )
 ```
 
+.
+
+.
+
 ## Q2: Carat Distribution
 
+.
+
 ```{r}
+## Plotting the distribution of diamonds with different Carats
 diamonds %>% 
   gf_histogram(~carat) %>%
   gf_labs(
@@ -85,6 +152,7 @@ diamonds %>%
 ```
 
 ```{r}
+## Putting bins at 100
 diamonds %>% 
   gf_histogram(~carat,
                bins = 100) %>%
@@ -95,24 +163,34 @@ diamonds %>%
 ```
 
 ```{r}
+## Putting bins at 200
 diamonds %>% 
   gf_histogram(~carat,
-               bins = 2000) %>%
+               bins = 200) %>%
   gf_labs(
-    title = "Plot 2B: Diamond Carats",
+    title = "Plot 2C: Diamond Carats",
     caption = "bins=200"
   )
 ```
 
+.
+
 ```{r}
+## What about when bins are 2000?
 diamonds %>% 
   gf_plot(~carat,
-               bins = 100) %>%
+               bins = 2000) %>%
   gf_labs(
-    title = "Plot 2B: Diamond Carats",
-    caption = "bins=100"
+    title = "Plot 2D: Diamond Carats",
+    caption = "bins=2000"
   )
 ```
+
+.
+
+> ### Observations:
+>
+> -   Some towers are really high, and some are very low: this suggests that there are certain values of diamonds that are more standard than others, i.e, one is more likely to find 1, 1.5 and 2 carat diamonds than perhaps a 1.8 or 1.9 carat diamond.
 
 ## Q3: Price Distribution based on Cut, Clarity, Color
 
@@ -209,25 +287,42 @@ diamonds %>%
   ))
 ```
 
-## Looking at Dataset 'race':
+.
 
-> ## Notes:
+.
+
+## Looking at Data sets 'race' and 'rank':
+
+.
+
+> ### Notes:
 >
 > -   favestats = singles out specified row and gives its stats
 >
-> -   crosstables = tabling more than two variables against eachother
+> -   crosstables = tabling more than two variables against each other
 >
 > -   drop_na() = removes all missing variables
 
+.
+
 ```{r}
+## Reading race data frame
+##
 race_df <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-10-26/race.csv")
+##
+##reading rank data frame
+##
 rank_df <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-10-26/ultra_rankings.csv")
-race_df
+
 
 ```
 
 ```{r}
 race_df %>% glimpse()
+```
+
+```{r}
+race_df %>%skim()
 ```
 
 ```{r}
@@ -237,6 +332,8 @@ rank_df %>%glimpse()
 ```{r}
 rank_df %>%skim()
 ```
+
+.
 
 ### Using mosaic::favestats:
 
@@ -257,6 +354,12 @@ rank_df %>%
   drop_na() %>%
   favstats(time_in_seconds ~ gender, data = .)
 ```
+
+.
+
+.
+
+### Data Dictionary:
 
 ## Coming up with Questions:
 

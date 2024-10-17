@@ -1,0 +1,82 @@
+---
+title: "Day 6 - Stats Theory"
+author: "Vasantha M"
+---
+
+## Introduction
+
+> #### Overview
+>
+> -   t.test
+>
+> -   intuitive
+>
+> <!-- -->
+>
+> -   `set.seed() :` random number generation, good for reproducability - the number is a label for the set of numbers generated.
+>
+> -   `rnorm()` : generates random numbers from a normal (Guassian) distribution.
+>
+> -   `tibble()` : constructs a data frame.
+>
+> -   `gf_fitdistr()` : provides an easy way to overlay a probability distribution curve onto a plot: assessing how well the theoritical distribution matches the empirical data.
+
+#### Setup Chunk:
+
+```{r}
+library(tidyverse)
+library(mosaic)
+library(ggformula)
+library(infer)
+library(broom) # Clean test results in tibble form
+library(resampledata) # Datasets from Chihara and Hesterberg's book
+library(openintro) # More datasets
+```
+
+# Inference for a Single Mean
+
+.
+
+## Case Study 1 - Toy Data
+
+```{r}
+set.seed(40)  # for replication
+# Data as individual vectors ( for t.tests etc)
+y <- rnorm(50, mean = 2, sd = 2)
+
+# And as tibble too
+mydata <- tibble(y = y)
+mydata
+```
+
+.
+
+## Inspecting and Charting Data:
+
+.
+
+```{r}
+##
+mydata %>%
+    gf_density(~y) %>%
+    gf_fitdistr(dist = "dnorm") %>%
+    gf_labs(title = "Densities of Original Data Variables", subtitle = "Compared with Normal Density")
+```
+
+.
+
+### Observations:
+
+-   The variable y appear to be centred around 2
+
+-   It does not seem to be normally distributed…
+
+.
+
+## Research Question
+
+Could the mean of the population μ, from which y has been drawn, be zero?
+
+## Assumptions
+
+## Inference
