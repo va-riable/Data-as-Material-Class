@@ -1,0 +1,404 @@
+---
+title: "A3 - Veg vs Non-Veg in Tips"
+author: "Vasantha M"
+---
+
+## Introduction
+
+.
+
+In and around SMI campus, a person was found.
+
+Questions regarding their preference in food (Non-Veg/Veg) and how much they leave in tips were asked.
+
+A coin was flipped.
+
+There was a 50% chance that that person contributed to this data sample!
+
+.
+
+### Setup Chunk
+
+```{r}
+library(tidyverse)
+library(mosaic)
+library(ggformula)
+library(infer) 
+library(broom) 
+library(skimr)
+library(gt)
+library(DT)
+```
+
+.
+
+## Reading and Examining Data
+
+.
+
+```{r}
+tips <- read_csv("../../Data/tips.csv")
+tips %>% glimpse()
+```
+
+.
+
+```{r}
+datatable(tips, options = list(pageLength = 10))
+```
+
+.
+
+```{r}
+tips %>% inspect()
+```
+
+.
+
+```{r}
+tips %>% skim()
+```
+
+.
+
+### Data Dictionary
+
+There are `60` rows and `4` columns in this data sample.
+
+.
+
+-   `Name`: A qualitative variable indicating the name of each participant
+
+-   `Gender`: A qualitative variable indicating the gender of each participant, either male or female. Out of the 60 participants, there are a total of 30 males, 15 of whom prefer `Non-Veg` and 15 of whom prefer `Veg`.
+
+-   `Preference`: A qualitative variable that describes the food preference of every participant, either `Veg` or Non-`Veg`
+
+-   `Tips`: The only quantitative variable in this data sample, describing the value that each participant leaves as a tip.
+
+.
+
+## Charting Data
+
+.
+
+```{r}
+tips %>%
+  gf_density(
+    ~ Tip,
+    fill = ~ Preference,
+    alpha = 0.5,
+    title = "Tips Score Densities",
+    subtitle = "Veg vs Non-Veg"
+  )
+##
+tips %>%
+  gf_boxplot(
+    Tip ~ Preference,
+    fill = ~ Preference,
+    alpha = 0.5,
+    title = "Tips Score Box Plots",
+    subtitle = "Veg vs Non-Veg"
+  ) 
+##
+tips %>% count(Preference)
+tips %>% 
+  group_by(Preference) %>% 
+  summarise(mean = mean(Tip))
+```
+
+.
+
+-   The data has an equal number of Non-Vegetarians and Vegetarians. As the sample sizes are equal, the means of both samples are comparable.
+
+-   The `mean` value of tips given by Vegetarians (`12.33 Rs.`) is ever so slightly higher than the mean value of tips given by Non-Vegetarians (`10.00Rs`)
+
+-   Though the `density graph`s for both groups look quite different the box plots are practically identical. The overlap and peaks of the density graph indicates that both Vegetarians and Non-Vegetarians usually tip in the 0-10 range. It tells us that Non-Vegetarians also have the tendency to tip in the 15-20 range, as there is a peak in the graph there. Both distributions taper off at the 50rs mark, suggesting that neither group tips higher than 60rs. However, the distributions of Vegetarians picks up slightly in the end, suggesting an outlier.
+
+-   The `box-plots` showcase that both Non-Vegetarians and Vegetarians have similar central tendencies as their medians, inter-quartile ranges and whiskers suggest that both groups have similar tipping ranges excluding outliers. The boxplot also confirms the presence of an outlier at the 100Rs mark in the Vegetarian group. It's right skew indicated that the mean is bigger than the median, which holds true.
+
+-   This data set is the perfect example of why both `box-plots` and `density graphs` are required to completely visualize and represent data. While the box-plot is a great way to view central tendencies at a glance, the distributions presented in the density graphs indicated the nuances of the data that the box-plots may not recognize.
+
+## Research Question
+
+Is there a difference in the way that Vegetarians and Non-Vegetarians in and around SMI Campus tip?
+
+### Hypothesis
+
+Case 0 - Null Hypothesis:
+
+> mean(Vegetarian Tips) = mean(Non-Vegetarian Tips)
+
+Case 1:
+
+> mean(Vegetarian Tips) ≠ mean(Non-Vegetarian Tips)
+
+.
+
+### Checking for Normalcy
+
+> Are the data distributions normal?
+
+.
+
+```{r}
+tips %>% 
+  gf_density( ~ Tip,
+            fill = ~ Preference,
+            alpha = 0.5,
+            title = "Tips across Veg and Non-Veg") %>% 
+  gf_facet_grid(~Preference) %>% 
+  gf_fitdistr(dist = "dnorm")
+##
+
+tips %>% 
+  gf_qqline(~ Tip,
+          color = ~ Preference,
+          title = "Tips...are they Normally Distributed?") %>% 
+  gf_qq(~ Tip,
+          color = ~ Preference,
+          title = "Tips...are they Normally Distributed?") %>% 
+  gf_facet_wrap(~ Preference)
+
+##
+
+veg_tips <- tips %>% 
+  filter( Preference == "Veg") %>% 
+  select(Tip)
+##
+
+non_veg_tips <- tips %>% 
+  filter( Preference == "Non-veg")
+##
+
+
+  
+```
+
+.
+
+> In a `Q-Q graph`, the `x-axis` indicates the theoretical distribution of the quantiles if the data was normally distributed around the mean, and the `y-axis` indicates the actual distribution of the data sample. The dotted slope line provides a reference to check how closely the sample data matches its theoretical distribution.
+
+.
+
+-   At a glance the density graphs show that in both groups, the data is **quite far from being a normal distribution**, as indicated by the black line.
+
+<!-- -->
+
+-   In both the Vegetarian and Non-Vegetarian Distributions, it is clear to see that the sample data does not follow the theoretical data. This is a big indicator that the **sample data is not normally distributed.**
+
+-   The sample data has points plotted primarily at the 0 mark, and next at the 20 mark in both groups, even if the number of points at those levels many vary per group. This graph confirms the inferences from the `box plot` - the box has a right-skew, with the median at 0. Most data points fall in the lower quartile range, and outliers lie on the upper ranges.
+
+    .
+
+```{r}
+shapiro.test(veg_tips$Tip)
+shapiro.test(non_veg_tips$Tip)
+```
+
+.
+
+-   The value of `W` calculated by the `Shapiro test` (always lying between 0-1) doesn't seem to be high enough to indicate a normal distribution. The `p-value`, which tells one the chances of a normal distribution are quite low for both groups, confirming the previous inferences.
+
+.
+
+### Checking for Variance
+
+> Are the data variances similar?
+
+.
+
+```{r}
+var.test(Tip ~ Preference, data = tips, 
+         conf.int = TRUE, conf.level = 0.95) %>% 
+  broom::tidy()
+
+```
+
+.
+
+```{r}
+## checking which group comes first
+tips %>% 
+  mutate( Preference = as_factor(Preference))
+  levels(tips$Preference)
+```
+
+.
+
+-   The `estimate` value of 0.345 indicates that the variance in tips of Non-Vegetarians is around 36.56% of the variance of Vegetarian tips. This means that the **variances of both groups are quite different.**
+
+-   This is supported by the `p-value` which tells the chances of similar variance, by testing the null hypothesis. The value provided is quite low, suggesting **variances that are not similar.**
+
+.
+
+```{r}
+##
+qf(0.345,29,29)
+```
+
+.
+
+-   As the value returned by the `qf()` function is greater than the value of the estimate from the `var.test`, it means that the Case 0, or **the null hypothesis can't be rejected**, i.e, the mean of Vegetarian tips may very well be equal to the mean of the Non-Vegetarian tips.
+
+.
+
+### Observed and Test Statistics
+
+> As the both groups in data sample are not normally distributed and have significant variance, the parametric `t.test` cannot be used, and the `wilcox.test`and `linear model` with ranked data should be used instead. Finally, a permutation test will also be done.
+
+.
+
+```{r}
+## using the test statistic of difference in means. Is it non zero?
+obs_diff_tips <- diffmean(Tip ~ Preference, data = tips) 
+obs_diff_tips
+## yes.
+```
+
+.
+
+.
+
+## Inference
+
+.
+
+### wilcox.test
+
+.
+
+```{r}
+
+wilcox.test(Tip ~ Preference, data = tips, 
+            conf.int = TRUE, 
+            conf.level = 0.95) %>% 
+  broom::tidy()
+```
+
+.
+
+-   the `p-value` of `0.8327` is greater than that of 0.05, and hence, Case 0, the **null hypothesis cannot be rejected.**
+
+.
+
+### Linear Model 
+
+.
+
+```{r}
+
+lm(rank(Tip) ~ Preference, 
+   data = tips) %>% 
+  broom::tidy(conf.int = TRUE,
+              conf.level = 0.95)
+```
+
+.
+
+-   Once again here, the `p-value` of `0.8282` (for PreferenceVeg) is greater than that of 0.05, and hence, Case 0, the **null hypothesis cannot be rejected.**
+
+.
+
+### Permutation Test
+
+.
+
+```{r}
+## taking the test statistic after each shuffle of preference, 4999 times
+
+null_dist_tips <- 
+  do(4999) * diffmean(data = tips, Tip ~ shuffle(Preference))
+##
+datatable(null_dist_tips, options = list(pageLength = 10))
+```
+
+.
+
+```{r}
+
+null_dist_tips %>% 
+  gf_histogram(~diffmean,
+               bins = 25) %>% 
+    gf_vline(xintercept = obs_diff_tips,
+             color = "red",
+             linewidth = 1,
+             title = "Null Distribution by Permutation",
+             subtitle = "Histogram") %>% 
+  gf_labs( x = "Difference in Means")
+
+##
+null_dist_tips %>% 
+gf_ecdf( ~ diffmean, 
+        linewidth = 1) %>%
+  gf_vline(xintercept = obs_diff_tips, 
+           colour = "red", linewidth = 1,
+           title = "Null Distribution by Permutation", 
+           subtitle = "Cumulative Density") %>% 
+  gf_labs(x = "Difference in Means")
+```
+
+.
+
+-   The first graph describes the observed difference in means from the permutation test in comparison the the distribution of the permuted differences. Since the observed difference in means falls within the distribution of permuted means, it suggests that there is not enough evidence to conclude that there is a real difference in the tips that Vegetarians and Non-Vegetarians leave.
+
+-   Essentially it means (haha, see what I did there) that the observed difference could have arisen due to random chance under the null hypothesis. It's not so special!
+
+.
+
+```{r}
+prop1(~ diffmean <= obs_diff_tips, data = null_dist_tips)
+```
+
+.
+
+-   the `prop1()` function calculates the proportion of values in the 4999 permutations that are as much or less than `obs_diff_tips = 2.3333`. In this case, 69.34% of the permutations are the same or less, suggesting that the **null hypothesis might as well be true.**
+
+.
+
+### All Tests Together
+
+.
+
+```{r}
+wilcox.test(Tip ~ Preference, data = tips, 
+            conf.int = TRUE, 
+            conf.level = 0.95) %>% 
+  broom::tidy() %>% 
+  gt() %>%
+  tab_style(
+    style = list(cell_fill(color = "violet"), cell_text(weight = "bold")),
+    locations = cells_body(columns = p.value)) %>% 
+  tab_header(title = "wilcox.test")
+
+## 
+
+lm(rank(Tip) ~ Preference, 
+   data = tips) %>% 
+  broom::tidy(conf.int = TRUE,
+              conf.level = 0.95) %>% 
+  gt() %>%
+  tab_style(
+    style = list(cell_fill(color = "violet"),cell_text(weight = "bold")),
+    locations = cells_body(columns = p.value)) %>% 
+  tab_header(title = "Linear Model with Ranked Data")
+```
+
+.
+
+This last table highlights the results of the `wilcox.test` and the `linear model by ranks`. In both tables, the purple boxes signify the `p-values` that describe the probability of accepting the null hypothesis - both pretty high in the 80-something percents.
+
+.
+
+.
+
+## Conclusion
+
+The null hypothesis rings true! There is no (statistically significant) difference in the means, or rather,
+
+> mean(Vegetarian Tips) = mean(Non-Vegetarian Tips)
+
+.
+
+And so,
+
+For this data sample that was collected in SMI, that describes how much students categorized as vegetarians and non-vegetarians leave in tips, we can conclude that there is no difference in their tipping habits - i.e, the value of the tip left by a person is not related to if they are vegetarian or non-vegetarian.

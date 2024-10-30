@@ -1,0 +1,433 @@
+---
+title: "A3 - Gals vs Guys in Spending"
+author: "Vasantha M"
+---
+
+## Introduction
+
+.
+
+In and around SMI campus, a person was found.
+
+Questions regarding their gender (Female/Male) and how much the expenses for the previous day (23rd October, 2024) totalled up to.
+
+A coin was flipped.
+
+There was a 50% chance that that person contributed to this data sample!
+
+.
+
+### Setup Chunk
+
+```{r}
+library(tidyverse) 
+library(mosaic) 
+library(ggformula) 
+library(infer)  
+library(broom)  
+library(skimr) 
+library(gt) 
+library(DT)
+```
+
+.
+
+## Reading and Examining Data
+
+.
+
+```{r}
+spend <- read_csv("../../Data/spend.csv") 
+spend %>% glimpse()
+```
+
+.
+
+```{r}
+datatable(spend, options = list(pageLength = 10))
+```
+
+.
+
+```{r}
+spend %>% inspect()
+```
+
+.
+
+```{r}
+spend %>% skim()
+```
+
+.
+
+### Data Dictionary
+
+There are `60` rows and `4` columns in this data sample
+
+.
+
+-   `Sr no`: A qualitative variable that keeps track of every individual participant.
+
+-   `Name`: A qualitative variable indicating the name of each participant
+
+-   `gender`: qualitative variable indicating the gender of each participant, either male or female. Out of the 60 participants, there are a total of 30 males, and 30 females.
+
+-   `expense`: A qualitative variable that describes the amount each participant spent on 23rd October, 2024.
+
+.
+
+## Charting Data
+
+.
+
+```{r}
+spend %>%   
+  gf_density( ~ expense,
+              fill = ~ gender, 
+              alpha = 0.5, 
+              title = "spend Score Densities", 
+              subtitle = "Veg vs Non-Veg" ) 
+
+##
+
+spend %>%   
+  gf_boxplot( expense ~ gender,     
+              fill = ~ gender,     
+              alpha = 0.5,     
+              title = "Expnses vs Gender",     
+              subtitle = "Male vs Female" )  
+## adjusting scales
+
+spend %>%   
+  gf_density( ~ log10(expense),
+              fill = ~ gender, 
+              alpha = 0.5, 
+              title = "spend Score Densities", 
+              subtitle = "Veg vs Non-Veg" ) 
+
+## 
+
+spend %>%   
+  gf_boxplot( log10(expense) ~ gender,     
+              fill = ~ gender,     
+              alpha = 0.5,     
+              title = "Expnses vs Gender",     
+              subtitle = "Male vs Female" )  
+
+##
+
+spend %>% 
+  count(gender) 
+
+spend %>%    
+  group_by(gender) %>%    
+  summarise(mean = mean(expense))
+```
+
+.
+
+-   The data has an equal number of Males and Females. As the sample sizes are equal, the means of both samples are comparable.
+
+-   The `mean` value of money spent by Males(`748.6098 Rs.`) is higher than the mean value of money spent by Feales (`693.3171)`
+
+-   There is considerable overlap between both groups in the density graph. The mode for females seems to be higher than the mode for males, and both groups taper down before and have outliers after the 2,500 mark.
+
+-   The `box-plots` indicate that while the two groups have similar medians, their skews are different. The interquartile range for males is larger than that of females, and while expenditure by females seems to have no skey, expenditure by males has right-skew, indicating more values above the median in the central data. both groups have outliers, and the money spent by females remains unskewed even with the presence of outliers and a longer right whisker, which cannot be said the same for the males sample.
+
+-   in the `boxplot` with the modified scale, expanding the lower end of the sample distribution reveals the extent by which the above inferences are true more clearly.
+
+.
+
+## Research Question
+
+Is there a difference in the way Gals and Guys from in and around SMI campus spend money in a day?
+
+### Hypothesis
+
+Case 0 - Null Hypothesis:
+
+> mean(Male) = mean(Female)
+
+Case 1:
+
+> mean(Male) ≠ mean(Female)
+
+.
+
+### Checking for Normalcy
+
+.
+
+```{r}
+spend %>%    
+  gf_density( ~ expense,             
+              fill = ~ gender,             
+              alpha = 0.5,             
+              title = "Expenses across Male and Female") %>%    
+  gf_facet_grid(~gender) %>%    
+  gf_fitdistr(dist = "dnorm") 
+
+## 
+
+spend %>%    
+  gf_qqline(~ expense,           
+            color = ~ gender,           
+            title = "Expenses...are they Normally Distributed?")%>%    
+  gf_qq(~ expense,           
+        color = ~ gender,           
+        title = "Expenses...are they Normally Distributed?") %>%    
+  gf_facet_wrap(~ gender)
+
+##  
+
+female_expenses <- spend %>%    
+  filter( gender == "Female") %>%    
+  select(expense) 
+##  
+male_expenses <- spend %>%   
+  filter( gender == "Male") %>% 
+  select(expense)
+## 
+
+##
+##
+
+spend %>%    
+  gf_density( ~ log10(expense),             
+              fill = ~ gender,             
+              alpha = 0.5,             
+              title = "Expenses across Male and Female") %>%    
+  gf_facet_grid(~gender) %>%    
+  gf_fitdistr(dist = "dnorm") 
+
+## 
+
+spend %>%    
+  gf_qqline(~ log10(expense),           
+            color = ~ gender,           
+            title = "Expenses...are they Normally Distributed?")%>%    
+  gf_qq(~ log10(expense),           
+        color = ~ gender,           
+        title = "Expenses...are they Normally Distributed?") %>%    
+  gf_facet_wrap(~ gender)
+
+##  
+
+```
+
+.
+
+-   It's clear to see with the first density plot that in both groups, the data is **quite far from being a normal distribution**, as indicated by the black line.
+
+-   Though much of the data is clustered along the line in the gf_qq() plot, the ends of the distribution are quite far away/scattered. This is probably why the graphs with the altered scale show the sample distribution as a more a normal distribution in the density plot.
+
+-   These charts confirm the findings from the `box plot`, as they highlight the exact distribution of data points.
+
+.
+
+```{r}
+shapiro.test(female_expenses$expense)
+shapiro.test(male_expenses$expense)
+```
+
+.
+
+-   The value of `W` calculated by the `Shapiro test` (always lying between 0-1) doesn't seem to be high enough to indicate a normal distribution. The `p-value`, which is very very small in terms of the threshold of 0.05 tells one the chances of a normal distribution are quite low for both groups, confirming the previous inferences.
+
+.
+
+### Checking for Variance
+
+.
+
+```{r}
+var.test(expense ~ gender, data = spend,           
+         conf.int = TRUE, conf.level = 0.95) %>%    
+  broom::tidy()
+```
+
+.
+
+```{r}
+## checking which group comes first
+spend <-spend %>% 
+  mutate( gender = as_factor(gender))
+  levels(spend$gender)
+
+```
+
+.
+
+-   The `estimate` value of `1.5475` indicates that the variance in tips of Males is around 154.75 % of the variance of Female tips. This means that the **variances of both groups are different.**
+
+-   This is supported by the `p-value` which tells the chances of similar variance, by testing the null hypothesis. The value provided is quite low, suggesting **variances that are not similar.**
+
+.
+
+```{r}
+## as the probability value must be between 0-1, flipping the percentages we get 0.6455
+qf(0.6455, 40, 40)
+```
+
+.
+
+-   As the value returned by the `qf()` function is much greater than the value of the estimate from the `var.test`, it means that the Case 0, or **the null hypothesis can't be rejected**, i.e, the mean of expenditure by females may as well be equal to the mean of the expenditure by males.
+
+.
+
+### Observed and Test Statistics
+
+> As the both groups in data sample are not normally distributed and have significant variance, the parametric `t.test` cannot be used, and the `wilcox.test`and `linear model` with ranked data should be used instead. Finally, a permutation test will also be done.
+
+.
+
+```{r}
+obs_diff_gender <- diffmean(expense ~ gender, data = spend)  
+obs_diff_gender
+## the difference in means is non-zero. Now, is it special?
+```
+
+.
+
+.
+
+## Inference
+
+.
+
+### wilcox.test
+
+.
+
+```{r}
+wilcox.test(expense ~ gender, data = spend,              
+            conf.int = TRUE,              
+            conf.level = 0.95) %>%    
+  broom::tidy()
+```
+
+.
+
+-   the `p-value` of `0.38065` is greater than that of 0.05, and hence, Case 0, the **null hypothesis cannot be rejected.**
+
+.
+
+### Linear Model 
+
+.
+
+```{r}
+lm(rank(expense) ~ gender,     
+   data = spend) %>%    
+  broom::tidy(conf.int = TRUE,               
+              conf.level = 0.95)
+```
+
+.
+
+-   Once again here, the `p-value` of `0.38144` (for genderFemale) is greater than that of 0.05, and hence, Case 0, the **null hypothesis cannot be rejected.**
+
+.
+
+### Permutation Test
+
+.
+
+```{r}
+null_dist_spend <-    
+  do(4999) * diffmean(data = spend, expense ~ shuffle(gender)) 
+datatable(null_dist_spend, options = list(pageLength = 10))
+```
+
+.
+
+```{r}
+null_dist_spend %>%    
+  gf_histogram(~diffmean,                
+               bins = 25) %>%      
+  gf_vline(xintercept = obs_diff_gender,              
+           color = "red",              
+           linewidth = 1,              
+           title = "Null Distributtion by Permutation",              
+           subtitle = "Histogram") %>%    
+  gf_labs( x = "Difference in Means")  
+
+## 
+
+null_dist_spend %>%  
+  gf_ecdf( ~ diffmean,          
+           linewidth = 1) %>%   
+  gf_vline(xintercept = obs_diff_gender,             
+           colour = "red", linewidth = 1,            
+           title = "Null Distribution by Permutation",             
+           subtitle = "Cumulative Density") %>%    
+  gf_labs(x = "Difference in Means")
+```
+
+.
+
+-   The first graph describes the observed difference in means from the permutation test in comparison the the distribution of the permuted differences. Since the observed difference in means falls within the distribution of permuted means, it suggests that there is not enough evidence to conclude that there is a real difference in the money that Males and Females spend.
+
+-   Essentially it means that the observed difference could have arisen due to random chance under the null hypothesis. It's not so special!
+
+.
+
+```{r}
+prop1(~ diffmean <= obs_diff_gender, data = null_dist_spend)
+```
+
+.
+
+-   the `prop1()` function calculates the proportion of values in the 4999 permutations that are as much or less than `obs_diff_tips = -55.29268`. In this case, 44.08% of the permutations are the same or less, suggesting that the **null hypothesis may very well be true.**
+
+.
+
+### All Tests Together
+
+.
+
+```{r}
+wilcox.test(expense ~ gender, data = spend,              
+            conf.int = TRUE,              
+            conf.level = 0.95) %>%    
+  broom::tidy() %>%    
+  gt() %>%   
+  tab_style( style = list(cell_fill(color = "violet"), 
+                          cell_text(weight = "bold")),     
+             locations = cells_body(columns = p.value)) %>%    
+  tab_header(title = "wilcox.test")  
+
+##   
+lm(rank(expense) ~ gender,     
+   data = spend) %>%    
+  broom::tidy(conf.int = TRUE,               
+              conf.level = 0.95) %>%    
+  gt() %>%   
+  tab_style(style = list(cell_fill(color = "violet"),
+                         cell_text(weight = "bold")),     
+            locations = cells_body(columns = p.value)) %>%    
+  tab_header(title = "Linear Model with Ranked Data")
+```
+
+.
+
+This last table highlights the results of the `wilcox.test` and the `linear model by ranks`. In both tables, the purple boxes signify the `p-values` that describe the probability of accepting the null hypothesis - both around in the 38 percent, which is significant.
+
+.
+
+.
+
+## Conclusion
+
+The null hypothesis rings true. There is no (statistically significant) difference in the means, or rather,
+
+> mean(Vegetarian Tips) = mean(Non-Vegetarian Tips)
+
+In terms of the tips data sample there's a lesser chance, but it is not negligible enough to discard.
+
+.
+
+And so,
+
+For this data sample that was collected in and around SMI, that describes how much students categorized by their gender spent in a day, we can conclude that there is no difference in their tipping habits - i.e, the amount spent by a person is not related to if they are male or female.

@@ -1,0 +1,12 @@
+---
+title: "Day 8: Stats Theory Proportions"
+author: "Vasantha M"
+format: html
+editor: visual
+---
+
+## Introduction:
+
+<https://av-quarto.netlify.app/content/courses/analytics/inference/modules/180-oneprop/>
+
+### Setup Chunk:

@@ -1,0 +1,155 @@
+---
+title: "Day 7: Comparing Multiple Means with ANOVA"
+author: "Vasantha M"
+---
+
+# Comparing Multiple Means with ANOVA
+
+.
+
+## Introduction
+
+.
+
+### Setup Chunk
+
+```{r}
+
+#| label: setup}
+
+library(tidyverse) # Tidy data processing
+library(ggformula) # Formula based plots
+library(mosaic) # Data inspection and Statistical Inference
+library(broom) # Tidy outputs from Statistical Analyses
+library(infer) # Statistical Inference, Permutation/Bootstrap
+library(patchwork) # Arranging Plots
+library(ggprism) # Interesting Categorical Axes
+library(supernova) # Beginner-Friendly ANOVA Tables
+```
+
+.
+
+.
+
+## Reading and Examining the data
+
+```{r}
+## Calling Data
+frogs_orig <- read_delim(file ="../../Data/frogs.csv", delim = ",")
+frogs_orig
+```
+
+.
+
+```{r}
+##Cleaning the Data
+frogs_orig %>% 
+  ##
+  pivot_longer(
+    .,
+    cols = starts_with("Temperature"),
+    cols_vary = "fastest",
+    names_to = "Temp",
+    values_to = "Time"
+  ) %>% 
+  ##
+  drop_na() %>% 
+  
+  ## "\\d+" is regex language for 'keep only the digits'all digits'
+  
+  separate_wider_regex(
+    cols = Temp,
+    patterns = c("Temperature", TempFac ="\\d+"),
+    cols_remove = TRUE
+  ) %>% 
+  mutate(
+    TempFac = factor(
+      x = TempFac,
+      levels = c(13,18,25),
+      labels = c("13","18","25")
+    )
+    ) %>% 
+    rename("Id" = 'Frogspawn sample id') -> frogs_long
+
+frogs_long
+##
+frogs_long %>% count(TempFac)
+
+  
+```
+
+.
+
+## Plotting Data
+
+.
+
+```{r}
+##plotting histograms
+
+frogs_long %>% 
+  gf_histogram( ~ Time,
+              fill = ~TempFac,
+              alpha = 0.5) %>% 
+  gf_vline(xintercept = ~mean(Time)) %>% 
+  gf_labs(
+    title = "Histograms of Hatching Time Distributions vs Temperature",
+    x = "Hatching Time", y = "Count"
+  ) %>%
+  gf_text(7 ~ (mean(Time) + 2),
+    label = "Overall Mean"
+  ) %>%
+  gf_refine(guides(fill = guide_legend(title = "Temperature level (°C)")))
+
+## Its clear to see that eggs hatch faster if the temperature is higher.
+
+```
+
+.
+
+```{r}
+## plotting boxplots
+gf_boxplot(
+  data = frogs_long,
+  Time ~ TempFac,
+  fill = ~TempFac,
+  alpha = 0.5
+) %>%
+  gf_vline(xintercept = ~ mean(Time)) %>%
+  gf_labs(
+    title = "Boxplots of Hatching Time Distributions vs Temperature",
+    x = "Temperature", y = "Hatching Time",
+    caption = "Using ggprism"
+  ) %>%
+  gf_refine(
+    scale_x_discrete(guide = "prism_bracket"),
+    guides(fill = guide_legend(title = "Temperature level (°C)"))
+  )
+
+## there is very little overlap - both the boxplots and the histograms indicate that temperature has a significant effect on hatching time.
+
+```
+
+.
+
+## Workflow: ANOVA
+
+.
+
+```{r}
+
+frogs_anova <- aov(Time ~ TempFac, data = frogs_long)
+##
+supernova::pairwise(frogs_anova,
+  correction = "Bonferroni", # Try "Tukey"
+  alpha = 0.05, # 95% CI calculation
+  var_equal = TRUE, # We'll see
+  plot = TRUE
+)
+
+## What is ANOVA doing? It's analyzing the variance...
+## Total variance vs var1, var2, var3 --> the difference is so huge.
+
+```
+
+.

@@ -1,0 +1,22 @@
+---
+title: "Online Session - Maps"
+author: "Vasantha M"
+---
+
+<https://arvindvenkatadri.com/labs/r-for-artists/06-spatial/06-grammar-of-maps>
+
+```{r}
+library(tidyverse)
+library(sf)
+library(tmap)
+library(osmdata)
+library(ggformula)
+```
+
+MoM (kind of): -
+
+-   We covered Maps: <https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/90-space/>
+
+-   First going through slides: <https://arvindvenkatadri.com/slides/r-for-artists/06-spatial/06-spatial-data-in-r#1>
+
+-   And then replicated code until the "My First Map in R" section: <https://arvindvenkatadri.com/labs/r-for-artists/06-spatial/06-grammar-of-maps>

@@ -1,5 +1,5 @@
 ---
-title: "Day 6 - Stats Theory"
+title: "Day 6: Stats Theory"
 author: "Vasantha M"
 ---
 
@@ -67,7 +67,7 @@ mydata %>%
 
 ### Observations:
 
--   The variable y appear to be centred around 2
+-   The variable y appear to be centered around 2
 
 -   It does not seem to be normally distributed…
 

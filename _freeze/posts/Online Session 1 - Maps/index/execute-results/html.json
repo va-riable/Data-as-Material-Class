@@ -1,0 +1,15 @@
+{
+  "hash": "bd2e47689d6665c8a9c90cf214a10dec",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Online Session - Maps\"\nauthor: \"Vasantha M\"\n---\n\n\n\n\n<https://arvindvenkatadri.com/labs/r-for-artists/06-spatial/06-grammar-of-maps>\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors\n```\n\n\n:::\n\n```{.r .cell-code}\nlibrary(sf)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nLinking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.3.1; sf_use_s2() is TRUE\n```\n\n\n:::\n\n```{.r .cell-code}\nlibrary(tmap)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nBreaking News: tmap 3.x is retiring. Please test v4, e.g. with\nremotes::install_github('r-tmap/tmap')\n```\n\n\n:::\n\n```{.r .cell-code}\nlibrary(osmdata)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nData (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright\n```\n\n\n:::\n\n```{.r .cell-code}\nlibrary(ggformula)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nLoading required package: scales\n\nAttaching package: 'scales'\n\nThe following object is masked from 'package:purrr':\n\n    discard\n\nThe following object is masked from 'package:readr':\n\n    col_factor\n\nLoading required package: ggridges\n\nNew to ggformula?  Try the tutorials: \n\tlearnr::run_tutorial(\"introduction\", package = \"ggformula\")\n\tlearnr::run_tutorial(\"refining\", package = \"ggformula\")\n```\n\n\n:::\n:::\n\n\n\n\nMoM (kind of): -\n\n-   We covered Maps: <https://av-quarto.netlify.app/content/courses/analytics/descriptive/modules/90-space/>\n\n-   First going through slides: <https://arvindvenkatadri.com/slides/r-for-artists/06-spatial/06-spatial-data-in-r#1>\n\n-   And then replicated code until the \"My First Map in R\" section: <https://arvindvenkatadri.com/labs/r-for-artists/06-spatial/06-grammar-of-maps>\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

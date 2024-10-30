@@ -1,0 +1,500 @@
+---
+title: "A3 - Chhota Bheem vs Doremon vs Dragon Tales"
+author: "Vasantha M"
+---
+
+## Introduction
+
+.
+
+In and around SMI campus, a person was found.
+
+A question on rating (on a scale of 1 to 10) a cartoon (Chhota Bheem/Doraemon/Dragon Tales) was asked.
+
+A coin was flipped.
+
+There was a 50% chance that that person contributed to this data sample!
+
+.
+
+### Setup Chunk
+
+```{r}
+library(tidyverse) # Tidy data processing 
+library(ggformula) # Formula based plots 
+library(mosaic) # Data inspection and Statistical Inference 
+library(broom) # Tidy outputs from Statistical Analyses 
+library(infer) # Statistical Inference, Permutation/Bootstrap 
+library(patchwork) # Arranging Plots 
+library(ggprism) # Interesting Categorical Axes 
+library(supernova) # Beginner-Friendly ANOVA Tables 
+library(skimr) 
+library(DT) 
+library(DescTools)
+```
+
+.
+
+## Reading and Examining Data
+
+.
+
+```{r}
+shows <- read_csv("../../Data/shows.csv") 
+shows %>%glimpse()
+```
+
+.
+
+```{r}
+datatable(shows, options = list(pageLength = 10))
+```
+
+.
+
+```{r}
+shows %>%inspect()
+```
+
+.
+
+```{r}
+shows %>% skim()
+```
+
+.
+
+```{r}
+## means of each group in the sample
+means <-shows %>% 
+  mutate( Cartoon = as_factor(Cartoon)
+  
+) %>% 
+  group_by(Cartoon) %>% 
+  summarize(mean = mean(Rating))
+means
+```
+
+.
+
+### Data Dictionary
+
+There are `90` rows and `4` columns in this data sample.
+
+.
+
+-    `Participant ID`: A qualitative variable that dictates the number of the participant instead of their name.
+
+-   `Gender`: A qualitative variable that describes the gender of every participant. There are and equal number of Males and Females in each group (15 each, totally 45 males and 45 females), to eliminate bias that this variable might have while testing the variable `Rating`.
+
+-   `Cartoon`: A qualitative variable that describes the show that is being rated, either Chhota Bheem, Doraemon or Dragon Tales.
+
+-   `Rating`: The only quantitative variable in this data sample, describing the rating that each participant has given about the show asked of them, on a scale of 1 to 10 where 10 is the best.
+
+.
+
+## Charting Data
+
+.
+
+```{r}
+## 
+shows %>% 
+  gf_histogram(~Rating,   
+               fill = ~Cartoon,   
+               alpha = 0.4,
+               position = "identity") %>%   
+  gf_vline(xintercept = ~ mean(Rating)) %>%   
+  gf_labs(     
+    title = "Histograms of Rating Distributions vs Cartoon",     
+    x = "Rating",
+    y = "Count"   ) %>%   
+  gf_text(7 ~ (mean(Rating) + 2),     
+          label = "Overall Mean"   ) %>%   
+  gf_refine(guides(fill = guide_legend(title = "Ratings")))
+
+##
+shows %>% 
+  gf_histogram(~Rating,   
+               fill = ~Cartoon,   
+               alpha = 0.4,
+               ) %>% 
+  gf_facet_wrap(~Cartoon) %>% 
+  gf_vline(xintercept = ~ mean(Rating)) %>%   
+  gf_labs(     
+    title = "Histograms of Rating Distributions vs Cartoon",     
+    x = "Rating",
+    y = "Count"   ) %>%   
+  gf_text(7 ~ (mean(Rating) + 2),     
+          label = "Overall Mean"   ) %>%   
+  gf_refine(guides(fill = guide_legend(title = "Ratings")))
+
+```
+
+.
+
+-   The `histogram` shows significant overlap across all three cartoons in terms of rating. This implies that the shows and ratings do not have much relation or dependancy in this sample.
+
+-   The overall mean lies somewhere around 7, with Doraemon having a mode at the highest values, 8 and 10. There seems to be no ratings at 9. Chhota Bheem ratings mode lies somewhere in the sixes range, the tallest among all three cartoons. The Dragon Tales mode lies with the `overall mean`.
+
+.
+
+```{r}
+## 
+shows %>%  
+  gf_boxplot(   
+    Rating ~ Cartoon,   
+    fill = ~Cartoon,   
+    alpha = 0.5 ) %>%   
+  gf_vline(xintercept = ~ mean(Rating)) %>%   
+  gf_labs(     
+    title = "Boxplots of Score Distributions vs Cartoon",     
+    x = "Cartoon", y = "Score",     
+    caption = "Using ggprism"   ) %>%   
+  gf_refine(     
+    scale_x_discrete(guide = "prism_bracket"),     
+    guides(fill = guide_legend(title = "Score"))   )
+```
+
+.
+
+-   The `box-plots` have considerable overlap in their interquartile range, confirming the earlier plotted histogram, which shows that viewer ratings are quite similar across all three shows.
+
+-   Doreamon is the only box with a negative skew, and also the highest median across all three shows. This means that most of Doreamon's ratings are clustered above the median, and the lower ratings are dispersed below the median - with an outlier at 2/10.
+
+-   Chhota Bheem has a larger skew in the positive direction than Dragon Tales, probably due to the outlier at 2/10 in the Dragon Tales Data, signifying that the ratings for Chota bheem are more dispersed above the median value of around 6. Dragon Tales data also has more even looking whiskers, suggesting a uniform distribution.
+
+.
+
+## Research Question
+
+.
+
+Based on the sample data set at hand, how does viewer `Ratings` vary with `Cartoon`?
+
+.
+
+### Hypothesis
+
+.
+
+Case 0: Null Hypothesis - tested by ANOVA
+
+> mean(Doraemon) = mean(Chhota Bheem) = mean(Dragon Tales)
+
+Case 1:
+
+> mean(Doraemon) ≠ mean(Chhota Bheem) = mean(Dragon Tales)
+
+Case 2:
+
+> mean(Doraemon) = mean(Chhota Bheem) ≠ mean(Dragon Tales)
+
+Case 3:
+
+> mean(Doraemon) ≠ mean(Chhota Bheem) ≠ mean(Dragon tales)
+
+.
+
+## ANOVA
+
+.
+
+Why perform ANOVA before checking for its assumptions?
+
+.
+
+Because, it is an **exploratory** data analysis!!
+
+Also, ANOVA is relatively robust to minor violations of assumptions, especially with large, balanced sample sizes. For example:
+
+-   Normality: With large samples (often n \> 30 per group), the Central Limit Theorem suggests that the mean distribution becomes approximately normal, making ANOVA results reasonably accurate.
+
+-   Homogeneity of variance: If group sizes are equal or nearly equal, ANOVA can tolerate some differences in variance across groups without severely affecting results.
+
+.
+
+```{r}
+shows_anova <- aov(Rating ~ Cartoon, data = shows)
+```
+
+.
+
+```{r}
+# 
+supernova::pairwise(shows_anova,   
+                    correction = "Bonferroni", # Try "Tukey" 
+                    alpha = 0.05, # 95% CI calculation   
+                    var_equal = TRUE, # We'll see  
+                    plot = TRUE 
+                    )
+```
+
+.
+
+This test reveals that
+
+-   the `mean difference` of Doraemon v/s Chhota Bheem is `0.580.` The confidence interval includes 0, and the `p-value` of `0.3161` exceeds 0.05, indicating that any difference is likely due to chance.
+
+-   the `mean difference` of Dragon Tales v/s Chhota Bheem is `0.597.` Once again, the confidence interval includes 0, and the `p-value` of `0.2877` exceeds 0.05, indicating that any difference in means is a chance encounter.
+
+-   the `mean difference` of Dragon Tales v/s Doraemon is `0.017.` This time too, the confidence interval includes 0, and the `p-value` of `1.000` exceeds 0.05, again, indicating that any difference is likely due to chance.
+
+-   To conclude, at the 95% confidence level with Boneferroni correction, the mean ratings of all three cartoons do not significantly differ from one another. The observed mean differences that do exist are not statistically meaningful, suggesting that the groups are likely similar in their average ratings. That is, there viewers do not strongly favor any show over another. **According to this test, Case 0, the Null Hypothesis, is true.**
+
+Interestingly,
+
+-   Chhota Bheem has very similar difference in mean with the other two shows. What could this mean? Perhaps simply that the underlying distributions are similar (as they can potentially have data points clustering around similar values), which means that both cartoons cater to a similar demographic (Nostalgic Adults and Children!!!) But again, the test indicates that these differences in means are anyway likely due to chance - and hence not statistically significant.
+
+.
+
+## Stating the Model
+
+.
+
+```{r}
+## arriving at a linear equation relating ratings  to cartoons
+supernova::equation(shows_anova)
+```
+
+.
+
+The value of `6.67` acts as the reference mean, (in this case for Chhota Bheem, as identified earlier through grouping and summarizing). The equation tells us that on average, the ratings for Doraemon are `0.58` times higher than that of the reference, and the ratings for Dragon Tales is `0.5967` times that of the reference. The constant `e` accounts for any error factor.
+
+.
+
+## Checking ANOVA Assumptions
+
+.
+
+ANOVA makes 3 fundamental assumptions:
+
+a.  Data (and errors) are normally distributed.
+
+b.  Variances are equal.
+
+c.  Observations are independent.
+
+.
+
+### Checks for Normality
+
+.
+
+```{r}
+shapiro.test(x = shows$Rating)
+```
+
+.
+
+-   The test statistic of `W`, valued for this data sample at `0.93517` suggests that the data might be normally distributed. This statistic is represented by a value always between 0-1, and the further the value is from 1, the further the data sample is being from normally distributed.
+
+-   Since the `p-value`, at `0.0002269` is much lower than that of the threshold of 0.05, Case0, the **first condition and assumption for ANOVA is not met.**
+
+-   Both these results together are indicative that this data sample **is not normally distributed**.
+
+    .
+
+> How can this be, when the ANOVA results suggested that 0 was included in the 95% confidence intervals of the mean differences in each pair of groups? Which test do we take as true? Should we use a non-parametric tests that do not assume normality? If these non-parametric tests exist, why even check for normality in the first place? Does a normal distribution tell us other things? What is the significance of a normal distribution? (I must visit my stats basics it seems)
+
+.
+
+> On prompting ChatGPT and Google:
+>
+> While non-parametric tests are valuable tools for analyzing data that do not meet the assumptions of normality, checking for normality remains an essential part of the data analysis process. It informs the choice of statistical tests, enhances the understanding of data characteristics, and can lead to more effective and powerful analyses when parametric tests are appropriate. Ultimately, a comprehensive approach that considers both parametric and non-parametric options based on the data's distribution can yield the most meaningful insights.
+
+.
+
+```{r}
+shows %>%   
+  group_by(Cartoon) %>%   
+  group_modify(~ .x %>%     
+                 select(Rating) %>%     
+                 as_vector() %>%     
+                 shapiro.test() %>%     
+                 broom::tidy())
+```
+
+.
+
+-   Looking at the test results for each group, we can say that Doraemon Ratings data and Dragon Tales Ratings data are definitely not normally distributed, as their `p-values` are lesser than 0.05. Chhota Bheem Ratings data has a `18.538`% chance of being normally distributed according to its `p-value` which is still not too highly likely.
+
+.
+
+```{r}
+## assessing how well the model fits the data (theoretical distribution vs sample distribution) 
+##
+shows_anova$residuals %>%   
+  as_tibble() %>%   
+  gf_dhistogram(~value, data = .) %>%   
+  gf_fitdistr() 
+## 
+shows_anova$residuals %>%   
+  as_tibble() %>%   
+  gf_qq(~value, data = .) %>%   
+  gf_qqstep() %>%   
+  gf_qqline() 
+## 
+shapiro.test(shows_anova$residuals)
+```
+
+.
+
+-   from both these graphs, it is clear to see that the distribution of the sample data is ill fitting of the lines that indicated the theoretical distribution. Now it can be safely concluded that the sample data is indeed, **not normally distributed.**
+
+.
+
+.
+
+### Check for Similar Variance
+
+.
+
+```{r}
+shows %>%   
+  group_by(Cartoon) %>%   
+  summarise(variance = var(Rating))  
+#  
+DescTools::LeveneTest(Rating ~ Cartoon, data = shows) 
+## 
+fligner.test(Rating ~ Cartoon, data = shows)
+```
+
+.
+
+-   Though the maginitude of the variances as computed in the table seem to indicate that there is significant difference in the variance, The Fligner-Killeen test of homogeneity of variances here, with a p-value of 0.4038 shows that those values are not statistically significant. Hence, the test implies that the **variances are homogeneous**, supporting the second assumption/condition for conducting ANOVA
+
+.
+
+### Independent Observations
+
+.
+
+The way in which the data was gathered ensured that each observation is Independent.
+
+.
+
+Hence, two out of three ANOVA assumptions have been confirmed. It still makes sense to perform ANOVA, as it is typically robust against violations of normality, especially with balanced groups and sample sizes \>=30 (which this sample fulfills.
+
+.
+
+## Effect Size
+
+.
+
+-   If the effect size is **large but not statistically significant**, it may indicate that the sample size isn’t large enough to detect the effect.
+
+-   Conversely, a small effect size with non-significant results (and wide confidence intervals including zero) would reinforce that the groups likely have similar means with no meaningful difference.
+
+.
+
+```{r}
+## effect size - the impact and scale of statistical significance
+shows_supernova <-supernova::pairwise(shows_anova,     
+                                      plot = TRUE,     
+                                      alpha = 0.05,     
+                                      correction = "Bonferroni"   )
+```
+
+.
+
+```{r}
+shows_supernova
+```
+
+.
+
+```{r}
+diff_values <- c(0.580, 0.597, 0.017)
+pooled_se <- 0.354
+sample_size <- 30
+
+# Calculate Cohen's d
+d_values <- diff_values / pooled_se * sqrt(1/sample_size + 1/sample_size)
+d_values
+
+## Interpreting Cohen’s d
+##Small effect: d≈0.2
+##Medium effect: d≈0.5
+##Large effect: d≈0.8
+
+```
+
+.
+
+-   The first two comparisons (Doraemon vs. Chota Bheem and Dragon Tales vs. Chota Bheem) suggest that there are **meaningful differences** in the ratings, despite not achieving statistical significance. This could imply that, with a larger sample size or different study conditions, these differences might become significant.
+
+<!-- -->
+
+-   The third comparison (Dragon Tales vs. Doraemon) shows that there is essentially **no meaningful difference** in ratings, reinforcing the conclusion that these two cartoons are rated similarly by participants.
+
+.
+
+.
+
+## ANOVA using Permutation Test
+
+.
+
+-   Since the data is not normally distributed, a permutation test is a good option to check for significance.
+
+.
+
+```{r}
+observed_infer <-   
+  shows %>%   
+  specify(Rating ~ Cartoon) %>%   
+  hypothesise(null = "independence") %>%   
+  calculate(stat = "F") 
+observed_infer
+```
+
+.
+
+-   The observed F- statistic is `0.9189246.`
+
+.
+
+```{r}
+null_dist_infer <- shows %>%   
+  specify(Rating ~ Cartoon) %>%   
+  hypothesise(null = "independence") %>%   
+generate(reps = 4999, type = "permute") %>%   
+  calculate(stat = "F") 
+## 
+datatable(null_dist_infer, options = list(pageLength = 10))
+```
+
+.
+
+```{r}
+## 
+null_dist_infer %>%   
+  visualise(method = "simulation") +   
+  shade_p_value(obs_stat = observed_infer$stat, direction = "right") +   
+  scale_x_continuous(trans = "log10", expand = c(0, 0)) +   
+  coord_cartesian(xlim = c(0.2, 500), clip = "off") +   
+  annotation_logticks(outside = FALSE)
+```
+
+.
+
+-   The infer based permutation test shows that the observed F-statistic falls well within the permutationally generated F-statistics, and the large red region indicates that the probability of obtaining a test statistic as extreme as, or more extreme than, the observed statistic under the null hypothesis is quite high.
+
+.
+
+.
+
+## Conclusion
+
+.
+
+The null hypothesis cannot be rejected, that is, there is no statistically significant difference in the means of the ratings of the three cartoons.
+
+> mean(Chhota Bheem) = mean(Doraemon) = mean(Dragon Tales)
+
+.
+
+Overall, ANOVA can be carried out using the standard formula `aov` when assumptions on distributions, variances, and independence are met. Since these tests test for different aspects of the data sample under the null hypothesis, their reuslts may vary from eachother. Permutation ANOVA tests can be carried out when these assumptions do not quite hold.
+
+.

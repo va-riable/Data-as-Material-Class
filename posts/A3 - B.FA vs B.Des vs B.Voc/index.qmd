@@ -1,0 +1,512 @@
+---
+title: "A3 - B.FA vs B.Des vs B.Voc"
+author: "Vasantha M"
+---
+
+## Introduction
+
+.
+
+In and around SMI campus, a person was found.
+
+Their bachelors degree (B.Voc/B.Des/B.FA) was identified.
+
+A question on their last grade in Cycle 1 was asked.
+
+A coin was flipped.
+
+There was a 50% chance that that person contributed to this data sample!
+
+.
+
+### Setup Chunk
+
+```{r}
+library(tidyverse) # Tidy data processing
+library(ggformula) # Formula based plots
+library(mosaic) # Data inspection and Statistical Inference
+library(broom) # Tidy outputs from Statistical Analyses
+library(infer) # Statistical Inference, Permutation/Bootstrap
+library(patchwork) # Arranging Plots
+library(ggprism) # Interesting Categorical Axes
+library(supernova) # Beginner-Friendly ANOVA Tables
+library(skimr)
+library(DT)
+library(DescTools)
+```
+
+.
+
+## Reading and Examining Data
+
+.
+
+```{r}
+grades <- read_csv("../../Data/grades.csv")
+grades %>%glimpse()
+```
+
+.
+
+```{r}
+datatable(grades, options = list(pageLength = 10))
+```
+
+.
+
+```{r}
+grades %>%inspect()
+```
+
+.
+
+```{r}
+grades %>% skim()
+```
+
+.
+
+### Clarifying Data:
+
+.
+
+```{r}
+grades_mod <-grades %>% 
+  mutate(
+   scores_rounded = 
+     case_when(
+    `Letter Grade` == "O" ~ 10,
+    `Letter Grade` == "A+" ~ 9,
+    `Letter Grade` == "A" ~ 8,
+    `Letter Grade` == "B+" ~ 7,
+    `Letter Grade` == "B" ~ 6,
+    `Letter Grade` == "C" ~ 5,
+    `Letter Grade` == "P" ~ 3,
+  
+  ) )
+grades_mod
+```
+
+.
+
+```{r}
+## means of each group in the sample
+means <-grades_mod %>% 
+  mutate( Degree = as_factor(Degree)
+  
+) %>% 
+  group_by(Degree) %>% 
+  summarize(mean = count(Gender == "M"))
+means
+```
+
+.
+
+### Data Dictionary
+
+There are `90` rows and `7+1` columns in this data sample.
+
+.
+
+-   `SN`: A qualitative variable that keeps track of every individual participant.
+
+-   `Degree`: A qualitative variable that describes the Bachelors `Degree` of each participant, either `B.Des`, `B.Voc` or `B.FA`.
+
+-   `Course`: A qualitative variable that describes the Major Course of each participant within their `Degree`.
+
+-   `Year`: A qualitative variable that describes the year of study of each participant.
+
+-   `Letter Grade`: A qualitative variable that describes the most recent grade received by the participant.
+
+-   `Score`: A quantitative variable that describes the most recent score received by the participant.
+
+-   `Gender`: A qualitative variable indicating the gender of each participant, either male or female. It is not equally distributed amongst the `Degrees` and hence cannot be a categorizing factor. Out of 90 participants, there are only 33 males.
+
+-   `rounded_scores`: A quantitative variable that describes the most recent grade received by the participant, but as a numeral. It is essentially the rounded version of the `Score` column.
+
+.
+
+## Charting Data
+
+.
+
+```{r}
+
+##
+grades_mod %>% 
+gf_histogram(~scores_rounded,
+  fill = ~Degree,
+  alpha = 0.5,
+  position = "identity",
+) %>%
+  gf_vline(xintercept = ~ mean(scores_rounded)) %>%
+  gf_labs(
+    title = "Histograms of Score Distributions vs Degree",
+    x = "Scores", y = "Count"
+  ) %>%
+  gf_text(7 ~ (mean(scores_rounded) + 2),
+    label = "Overall Mean"
+  ) %>%
+  gf_refine(guides(fill = guide_legend(title = "Scores")))
+
+##
+grades_mod %>% 
+gf_histogram(~scores_rounded,
+  fill = ~Degree,
+  alpha = 0.5,
+) %>%
+  gf_facet_wrap(~Degree) %>% 
+  gf_vline(xintercept = ~ mean(scores_rounded)) %>%
+  gf_labs(
+    title = "Histograms of Score Distributions vs Degree",
+    x = "Scores", y = "Count"
+  ) %>%
+  gf_text(7 ~ (mean(scores_rounded) + 2),
+    label = "Overall Mean"
+  ) %>%
+  gf_refine(guides(fill = guide_legend(title = "Scores")))
+```
+
+.
+
+-   There is considerable overlaps in the `histograms` of the three groups in terms of grades. Due to the nature of modification done to the data, the histogram is not continuous and represents a bar graph.
+
+-   The modal value of B.Des is placed highest in terms of the three, at a score of 9, with B.Voc in the middle at a score of 8, and B.FA trailing at a score of 7. There also seems to be a low score outlier in the B.Des sample.
+
+    .
+
+```{r}
+
+##
+grades_mod %>% 
+gf_boxplot(
+  scores_rounded ~ Degree,
+  fill = ~Degree,
+  alpha = 0.5
+) %>%
+  gf_vline(xintercept = ~ mean(scores_rounded)) %>%
+  gf_labs(
+    title = "Boxplots of Score Distributions vs Degree",
+    x = "Degree", y = "Score",
+    caption = "Using ggprism"
+  ) %>%
+  gf_refine(
+    scale_x_discrete(guide = "prism_bracket"),
+    guides(fill = guide_legend(title = "Score"))
+  )
+```
+
+.
+
+-   The `box-plots` indicate that the interquartile regions of the B.Des and B.Voc samples are the same, with the B.FA sample below them. Their medians however, are on opposite ends of each box, indicating that although they have a similar central range of data, the distribution is very different.
+
+-   The B.Des group has a very eveident left skew, signifying that there are more data points on the lower end. The B.Voc group is the opposite, with more data points above the median value.
+
+-   The median of the B.FA data sample is the same as that of the B.Voc data sample. However, the box lies completely below the median, unlike the B.Voc group. This indicates that overall, the central data range is lower than that of the other two, as well as that even within the group, there are more data points on the lower end.
+
+-   Though the whiskers are symmetrical on all three boxes, the B.Des and B.Voc groups show cases of outliers on the lower end. Even with the presence of more outliers in the B.Voc set, it remains a right-skew distribution.
+
+.
+
+## Research Question
+
+.
+
+Based on the sample data set at hand, how does viewer Score (`rounded_score`) vary with `Bachelors Degree`?
+
+.
+
+### Hypothesis
+
+.
+
+Case 0: Null Hypothesis - tested by ANOVA
+
+> mean(B.Des) = mean(B.Voc) = mean(B.FA)
+
+Case 1:
+
+> mean(B.Des) ≠ mean(B.Voc) = mean(B.FA)
+
+Case 2:
+
+> mean(B.Des) = mean(B.Voc) ≠ mean(B.FA)
+
+Case 3:
+
+> mean(B.Des) ≠ mean(B.Voc) ≠ mean(B.FA)
+
+## ANOVA
+
+.
+
+```{r}
+grades_anova <- aov(scores_rounded ~ Degree, data = grades_mod)
+```
+
+.
+
+```{r}
+
+#
+supernova::pairwise(grades_anova,
+  correction = "Bonferroni", # Try "Tukey"
+  alpha = 0.05, # 95% CI calculation
+  var_equal = TRUE, # We'll see
+  plot = TRUE
+)
+## trying with "Tukey"
+
+supernova::pairwise(grades_anova,
+  correction = "Tukey", # Try "Tukey"
+  alpha = 0.05, # 95% CI calculation
+  var_equal = TRUE, # We'll see
+  plot = TRUE
+)
+```
+
+.
+
+This test reveals that
+
+-   The `mean difference` of B.FA v/s B.Des is -`0.733.` The negative value indicates that on average, the values in B.FA, the first group, are lower than that of B.Des, the second group. The confidence interval does not include 0, and the `p-value` of `0.0045` is well below the threshold of 0.05, indicating that any difference cab are statistically significant. The null hypothesis is rejected in this case.
+
+-   The `mean difference` of B.Voc v/s B.Des is -`0.200.` Once again, the negative value indicates that on average the values in B.Voc, the first group, are lower than that of B.Des, the second group. The confidence interval however, includes 0, and the `p-value` of `1.0000` is above the threshold of 0.05, indicating that any difference cab be likely due to chance. The null hypothesis cannot be rejected in this case.
+
+-   the `mean difference` of B.Voc v/s B.FA is `0.533`. The confidence interval does not include 0, and the `p-value` of `0.0580`is slightly above the threshold of 0.05, indicating that any difference is not a chance encounter. Ideally, one would use a larger sample size to prove the precision of the estimate, since it dances around the threshold, but the null hypothesis is not entirely rejected in this case.
+
+-   To conclude, at the 95% confidence level with [Boneferroni coreection]{.underline}, while B.Voc and B.Des don't have a difference in means, B,Des and B.FA have a statistically significant difference. B.Voc and B.FA, however need more evidence to conclude whether their difference is significant or not.
+
+-   However, with the [Tukey correction]{.underline}, the 95% confidence intervals for all three groups include 0, and the `p-value` for all three groups is above the threshold 0.05, signifying that the **null hypothesis cannot be rejected**.
+
+.
+
+## Stating the Model
+
+.
+
+```{r}
+supernova::equation(grades_anova)
+```
+
+.
+
+This linear equation relates scores_rounded to bachelors degree says that:
+
+The value of `8.4` acts as the reference mean, (in this case for B.Des, as identified earlier through grouping and summarizing). The equation tells us that on average, the scores in B.FA are `0.733` times lower than that of the reference, and the scores in B.Voc are `0.2` times lower than that of the reference. The constant `e` accounts for any error factor.
+
+.
+
+## Checking ANOVA Assumptions
+
+.
+
+### Checks for Normality
+
+.
+
+ANOVA makes 3 fundamental assumptions:
+
+a.  Data (and errors) are normally distributed.
+
+b.  Variances are equal.
+
+c.  Observations are independent.
+
+.
+
+```{r}
+shapiro.test(x = grades_mod$scores_rounded)
+```
+
+.
+
+-   The test statistic of `W`, valued for this data sample at `0.9034` suggests that the data might be normally distributed. This statistic is represented by a value always between 0-1, and the further the value is from 1, the further the data sample is being from normally distributed.
+
+-   Since the `p-value`, at `0.000005762` is much lower than that of the threshold of 0.05, Case0, the **first condition and assumption for ANOVA is not met.**
+
+-   Both these results together are indicative that this data sample **is not normally distributed**.
+
+.
+
+```{r}
+grades_mod %>%
+  group_by(Degree) %>%
+  group_modify(~ .x %>%
+    select(scores_rounded) %>%
+    as_vector() %>%
+    shapiro.test() %>%
+    broom::tidy())
+```
+
+.
+
+-   Looking at the test results for each group, we can say that in all three groups data are definitely not normally distributed, as their `p-values` are much lesser than 0.05.
+
+.
+
+```{r}
+##theoretical distribution vs sample distribution
+grades_anova$residuals %>%
+  as_tibble() %>%
+  gf_dhistogram(~value, data = .) %>%
+  gf_fitdistr()
+##
+grades_anova$residuals %>%
+  as_tibble() %>%
+  gf_qq(~value, data = .) %>%
+  gf_qqstep() %>%
+  gf_qqline()
+##
+shapiro.test(grades_anova$residuals)
+```
+
+.
+
+-   from both these graphs, it is clear to see that the distribution of the sample data is ill fitting of the lines that indicated the theoretical distribution. Now it can be safely concluded that the sample data is indeed, **not normally distributed.**
+
+.
+
+### Check for Similar Variance
+
+.
+
+```{r}
+grades_mod %>%
+  group_by(Degree) %>%
+  summarise(variance = var(scores_rounded))
+
+# 
+DescTools::LeveneTest(scores_rounded ~ Degree, data = grades_mod)
+##
+fligner.test(scores_rounded ~ Degree, data = grades_mod)
+```
+
+.
+
+-   Though the maginitude of the variances as computed in the table seem to indicate that there is significant difference in the variance, at least in terms of B.FA and the other two groups, The Fligner-Killeen test of homogeneity of variances here, with a p-value of `0.1047` shows that those values are not statistically significant. Hence, the test implies that the **variances are homogeneous**, supporting the second assumption/condition for conducting ANOVA.
+
+.
+
+### Independent Observations
+
+.
+
+The way in which the data was gathered ensured that each observation is Independent.
+
+.
+
+Hence, two out of three ANOVA assumptions have been confirmed. It still makes sense to perform ANOVA, as it is typically robust against violations of normality, especially with balanced groups and sample sizes \>=30 (which this sample fulfills.
+
+.
+
+## Effect Size
+
+.
+
+```{r}
+
+#
+grades_supernova <-
+  supernova::pairwise(grades_anova,
+    plot = TRUE,
+    alpha = 0.05,
+    correction = "Bonferroni"
+  )
+```
+
+.
+
+```{r}
+grades_supernova
+```
+
+.
+
+```{r}
+diff_values <- c(0.733, 0.200, 0.0533)
+pooled_se <- 0.224
+sample_size <- 30
+
+# Calculate Cohen's d
+d_values <- diff_values / pooled_se * sqrt(1/sample_size + 1/sample_size)
+d_values
+
+## Interpreting Cohen’s d
+##Small effect: d≈0.2
+##Medium effect: d≈0.5
+##Large effect: d≈0.8
+```
+
+.
+
+-   The first comparison (B.FA vs. B.Des) strongly suggest that there are **meaningful differences** in the ratings, despite not achieving statistical significance. This could imply that, with a larger sample size or different study conditions, these differences might become significant.
+
+-   The second comparison (B.Voc vs B.Des) shows that there is essentially **no meaningful difference** in ratings, reinforcing the conclusion that these two cartoons are rated similarly by participants.
+
+-   The last comparison (B.FA vs B.Voc) again, (but not as strongly) suggest that there are **meaningful differences** in the ratings, despite not achieving statistical significance. This could imply that, with a larger sample size or different study conditions, these differences might become significant, and/or more insights can be gained.
+
+.
+
+## ANOVA using Permutation Test
+
+.
+
+-   Since the data is not normally distributed, a permutation test is a good option to check for significance.
+
+.
+
+```{r}
+observed_infer <-
+  grades_mod %>%
+  specify(scores_rounded ~ Degree) %>%
+  hypothesise(null = "independence") %>%
+  calculate(stat = "F")
+observed_infer
+```
+
+.
+
+-   The observed F- statistic is `2.870408.`
+
+.
+
+```{r}
+null_dist_infer <- grades_mod %>%
+  specify(scores_rounded ~ Degree) %>%
+  hypothesise(null = "independence") %>%
+  generate(reps = 4999, type = "permute") %>%
+  calculate(stat = "F")
+##
+datatable(null_dist_infer, options = list(pageLength = 10))
+```
+
+.
+
+```{r}
+##
+null_dist_infer %>%
+  visualise(method = "simulation") +
+  shade_p_value(obs_stat = observed_infer$stat, direction = "right") +
+  scale_x_continuous(trans = "log10", expand = c(0, 0)) +
+  coord_cartesian(xlim = c(0.2, 500), clip = "off") +
+  annotation_logticks(outside = FALSE)
+```
+
+.
+
+-   The infer based permutation test shows that the observed F-statistic falls within the permutationally generated F-statistics, and the small red region indicates that the probability of obtaining a test statistic as extreme as, or more extreme than, the observed statistic under the null hypothesis is present and **not negligible.**
+
+.
+
+.
+
+## Conclusion
+
+.
+
+The null hypothesis is rejected, but not completely - that is, the difference in the means of the Scores across the three Bachelors Degrees is sometimes statistically significant .
+
+> Does this mean all cases in the hypothesis ring true until a bigger sample is obtained?
+
+.
