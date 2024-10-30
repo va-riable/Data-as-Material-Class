@@ -1,5 +1,5 @@
 ---
-title: "And Finally....."
+title: "(11) And Finally....."
 author: "Vasantha M"
 format: html
 editor: visual
@@ -294,7 +294,7 @@ As seen in the upwards slope of the graph, my learning and understanding have a 
 
 .
 
-## Final (?) Reflection 
+## Final (?) Reflection
 
 This week really didn’t feel like the final week of class. Somehow, there is still so much more in the realm of R to be explored – I’m only just realizing that 12 days is barely anything in terms of the learning curve. Apart from R and RStudio, this class has taught me various things.
 
@@ -306,9 +306,11 @@ This week really didn’t feel like the final week of class. Somehow, there is s
 
 <!-- -->
 
--    I think I will also forever look at excel sheets differently; the potential in all those columns and rows for some seriously good art!
+-   I think I will also forever look at excel sheets differently; the potential in all those columns and rows for some seriously good art!
 
-    .
+```         
+.
+```
 
 -   Providing incentive goes a long way, acting as a catalyst for efficiency in data collection. Even better when the costs are shared, it’s definitely a good investment.
 

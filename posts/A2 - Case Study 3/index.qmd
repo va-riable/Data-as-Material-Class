@@ -1,5 +1,5 @@
 ---
-title: "A2 - Case Study 3"
+title: "(6) A2 - Case Study 3"
 ---
 
 # Gender at The Workplace
