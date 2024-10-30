@@ -16,6 +16,7 @@ format:
     css: styles.css
     toc: true
     toc-depth: 4  # Specify the depth of headers to include in the TOC
+    
 
 editor: visual
 

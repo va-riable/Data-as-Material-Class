@@ -281,7 +281,7 @@ wilcox.test(Tip ~ Preference, data = tips,
 
 .
 
-### Linear Model 
+### Linear Model
 
 .
 
